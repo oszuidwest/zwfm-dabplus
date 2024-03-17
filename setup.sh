@@ -42,6 +42,6 @@ if [ "$DO_UPDATES" == "y" ]; then
 fi
 
 # Install necessary packages
-install_packages silent fdkaac libfdkaac-ocaml libfdkaac-ocaml-dynlink
+install_packages silent supervisor logrotate
 wget "$ODR_AUDIOENC_PACKAGE_URL" -O /tmp/odr_audioenc.deb
 apt -qq -y install /tmp/odr_audioenc.deb --fix-broken
