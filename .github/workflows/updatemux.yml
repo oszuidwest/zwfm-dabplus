@@ -1,7 +1,9 @@
 name: Update Mux
 
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - 'stations.json'
 
 jobs:
   update-mux:
