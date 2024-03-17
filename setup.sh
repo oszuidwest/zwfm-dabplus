@@ -29,10 +29,15 @@ if [[ ! " ${SUPPORTED_OS[*]} " =~ ${OS_VERSION} ]]; then
   exit 1
 fi
 
-# Set package URLs
+# Set package URLs for audio enc
 ODR_AUDIOENC_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-audioenc/odr-audioenc"
 ODR_AUDIOENC_VERSION="3.4.0-1"
 ODR_AUDIOENC_PACKAGE_URL="${ODR_AUDIOENC_BASE_URL}_${ODR_AUDIOENC_VERSION}~deb${OS_VERSION}u1_${OS_ARCH}.deb"
+
+# Set package URLs for pad enc
+ODR_PADENC_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-padenc/odr-padenc"
+ODR_PADENC_VERSION="3.0.0-2"
+ODR_PADENC_PACKAGE_URL="${ODR_PADENC_BASE_URL}_${ODR_PADENC_VERSION}~deb${OS_VERSION}u1_${OS_ARCH}.deb"
 
 # User input for script execution
 ask_user "DO_UPDATES" "y" "Do you want to perform all OS updates? (y/n)" "y/n"
@@ -43,25 +48,44 @@ if [ "$DO_UPDATES" == "y" ]; then
 fi
 
 # Install necessary packages
-install_packages silent supervisor logrotate vlc
+install_packages silent supervisor logrotate vlc libmagickwand-dev
 wget "$ODR_AUDIOENC_PACKAGE_URL" -O /tmp/odr_audioenc.deb
 apt -qq -y install /tmp/odr_audioenc.deb --fix-broken
+wget "$ODR_PADENC_PACKAGE_URL" -O /tmp/odr_padenc.deb
+apt -qq -y install /tmp/odr_padenc.deb --fix-broken
 
 # Always ask these
 ask_user "WEB_PORT" "90" "Choose a port for the web interface" "num"
 ask_user "WEB_USER" "admin" "Choose a username for the web interface" "str"
 ask_user "WEB_PASSWORD" "encoder" "Choose a password for the web interface" "str"
 
-# Create the configuration file for supervisor
-cat << EOF > /etc/supervisor/conf.d/10-dab-zwfm.conf
-  [program:dab-zwfm]
-  command=odr-audioenc -v https://icecast.zuidwestfm.nl/zuidwest.stl -b 96 -e tcp://localhost:7000
+# Create slideshow files
+mkdir -p /var/dab/slides/zwfm/
+wget https://rds.zuidwestfm.nl/ -O /var/dab/zwfm.txt
+wget https://www.zuidwestupdate.nl/wp-content/uploads/2023/03/favicon.png -O /var/dab/slides/zwfm/1.png
+
+# Create the configuration file for DAB+ Audio
+cat << EOF > /etc/supervisor/conf.d/10-dab-zwfm-audio.conf
+  [program:dab-zwfm-audio]
+  command=odr-audioenc -v https://icecast.zuidwestfm.nl/zuidwest.stl -b 96 -P zwmf_pad -e tcp://localhost:7000
   autostart=true
   autorestart=true
   startretries=9999999999999999999999999999999999999999999999999
   stdout_logfile_maxbytes=0MB
   stdout_logfile_backups=0
   stdout_logfile=/var/log/encoder.log
+EOF
+
+# Create the configuration file for DAB+ PAD metadata
+cat << EOF > /etc/supervisor/conf.d/20-dab-zwfm-metadata.conf
+  [program:dab-zwfm-metadata]
+  command=odr-padenc --dls=/var/dab/zwfm.txt --dir=/var/dab/slides/zwfm/ --output=zwmf_pad
+  autostart=true
+  autorestart=true
+  startretries=9999999999999999999999999999999999999999999999999
+  stdout_logfile_maxbytes=0MB
+  stdout_logfile_backups=0
+  stdout_logfile=/var/log/metadata.log
 EOF
 
 # Configure the web interface
