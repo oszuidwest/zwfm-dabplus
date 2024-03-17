@@ -21,14 +21,21 @@
         "shortlabel": "ODR"
     },
     "services": {
-        "srv-fu": {
-            "id": "0x4daa",
-            "label": "Fünk"
+        "srv-zuidwest": {
+            "id": "0x836b",
+            "label": "ZuidWest FM"
         },
-        "srv-ri": {
-            "id": "0x5dab",
-            "ecc": "0xe0",
-            "label": "Rick"
+        "srv-slos": {
+            "id": "0xd598",
+            "label": "SLOS Steenbergen"
+        },
+        "srv-tholen": {
+            "id": "0x08f7",
+            "label": "Omroep Tholen"
+        },
+        "srv-rucphen": {
+            "id": "0x5cb8",
+            "label": "Radio Rucphen"
         }
     },
     "subchannels": {
@@ -44,7 +51,6 @@
             "bitrate": 96,
             "id": 1,
             "protection": 1,
-
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:9001",
             "buffer-management": "prebuffering",
@@ -56,11 +62,9 @@
             "bitrate": 96,
             "id": 1,
             "protection": 3,
-
             "inputproto": "edi",
             "inputuri": "tcp://127.0.0.1:9000",
             "buffer-management": "timestamped",
-
             "buffer": 500,
             "tist-delay": 10
         }
@@ -73,7 +77,6 @@
         "comp-ri": {
             "service": "srv-ri",
             "subchannel": "sub-ri",
-
             "user-applications": {
                 "userapp": "slideshow"
             }
