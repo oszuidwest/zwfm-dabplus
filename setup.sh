@@ -22,20 +22,16 @@ OS_VERSION=$(lsb_release -sr | tr '[:upper:]' '[:lower:]')
 OS_ARCH=$(dpkg --print-architecture)
 
 # Validate OS version
-SUPPORTED_OS=("bookworm" "bullseye")
+SUPPORTED_OS=("12" "11")
 if [[ ! " ${SUPPORTED_OS[*]} " =~ ${OS_VERSION} ]]; then
   printf "This script does not support '%s' OS version. Exiting.\n" "$OS_VERSION"
   exit 1
 fi
 
-# Add non-free packages (Do we need this?)
-#install_packages silent software-properties-common
-#apt-add-repository -y non-free
-
 # Set package URLs
-ODR_AUDIOENC_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-audioenc/odr-audioenc_"
+ODR_AUDIOENC_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-audioenc/odr-audioenc"
 ODR_AUDIOENC_VERSION="3.4.0-1"
-ODR_AUDIOENC_PACKAGE_URL="${ODR_AUDIOENC_BASE_URL}_${ODR_AUDIOENC_VERSION}~${OS_VERSION}u1_${OS_ARCH}.deb"
+ODR_AUDIOENC_PACKAGE_URL="${ODR_AUDIOENC_BASE_URL}_${ODR_AUDIOENC_VERSION}~deb${OS_VERSION}u1_${OS_ARCH}.deb"
 
 # User input for script execution
 ask_user "DO_UPDATES" "y" "Do you want to perform all OS updates? (y/n)" "y/n"
