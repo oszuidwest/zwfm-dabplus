@@ -1,7 +1,7 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-// Define the paths to your JSON files
+// Define the paths to the JSON files
 const stationsFilePath = './stations.json';
 const muxFilePath = './mux.json';
 

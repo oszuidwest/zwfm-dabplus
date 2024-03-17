@@ -1,5 +1,5 @@
 # ZuidWest DAB+
-Thit is an experimental project with the Opendigitalradio tools to generate a DAB+ mux for Streekomroep ZuidWest.
+This is an experimental project with the Opendigitalradio tools to generate a DAB+ mux for Streekomroep ZuidWest.
 
 ## What's here?
 - `setup.sh`: Creates a server with odr-audioenc, odr-padenc and odr-dabmux
