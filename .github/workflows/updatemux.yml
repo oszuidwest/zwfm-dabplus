@@ -17,12 +17,12 @@ jobs:
         jq -c '.stations[]' stations.json | while read station; do
           abbreviation=$(echo $station | jq -r '.abbreviation')
           full_name=$(echo $station | jq -r '.full_name')
-          service_id=$(printf "0x%x" $((RANDOM%4096)))
+          service_id=$(printf "%d" $((RANDOM%4096)))
           service_name="srv-$abbreviation"
-          jq --arg service_name "$service_name" \
-             --arg service_id "$service_id" \
+          jq --argjson service_id "\"0x$(printf '%x' $service_id)\"" \
+             --arg service_name "$service_name" \
              --arg label "$full_name" \
-             '.services[$service_name] = {"id": $service_id, "label": $label}' \
+             '.services += {($service_name): {"id": $service_id, "label": $label}}' \
              mux.json > tmp.$$ && mv tmp.$$ mux.json
         done
 
