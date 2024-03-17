@@ -1,9 +1,17 @@
 const fs = require('fs');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 
 // Define the paths to your JSON files
 const stationsFilePath = './stations.json';
 const muxFilePath = './mux.json';
+
+// Function to generate a consistent ID from the abbreviation
+function generateIdFromAbbreviation(abbreviation) {
+    // Hash the abbreviation using SHA-256
+    const hash = crypto.createHash('sha256').update(abbreviation).digest('hex');
+    // Return the first 4 characters of the hash as the ID
+    return '0x' + hash.substring(0, 4);
+}
 
 // Read and parse the stations JSON data
 fs.readFile(stationsFilePath, 'utf8', (err, data) => {
@@ -28,8 +36,8 @@ fs.readFile(stationsFilePath, 'utf8', (err, data) => {
 
         // Add each station as a service in the mux data
         stations.forEach(station => {
-            const serviceId = '0x' + uuidv4().slice(0, 4);
             const serviceName = `srv-${station.abbreviation}`;
+            const serviceId = generateIdFromAbbreviation(station.abbreviation);
 
             mux.services[serviceName] = {
                 id: serviceId,

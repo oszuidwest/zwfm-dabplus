@@ -18,9 +18,6 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install uuid
-
       - name: Update mux file
         run: node updateMux.js
 
