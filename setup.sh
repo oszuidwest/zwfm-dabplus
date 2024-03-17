@@ -39,6 +39,11 @@ ODR_PADENC_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-padenc/
 ODR_PADENC_VERSION="3.0.0-2"
 ODR_PADENC_PACKAGE_URL="${ODR_PADENC_BASE_URL}_${ODR_PADENC_VERSION}~deb${OS_VERSION}u1_${OS_ARCH}.deb"
 
+# Set package URLs for dab mux
+ODR_DABMUX_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-dabmux/odr-dabmux"
+ODR_DABMUX_VERSION="4.4.1-1"
+ODR_DABMUX_PACKAGE_URL="${ODR_DABMUX_BASE_URL}_${ODR_DABMUX_VERSION}~deb${OS_VERSION}u1_${OS_ARCH}.deb"
+
 # User input for script execution
 ask_user "DO_UPDATES" "y" "Do you want to perform all OS updates? (y/n)" "y/n"
 
@@ -53,6 +58,8 @@ wget "$ODR_AUDIOENC_PACKAGE_URL" -O /tmp/odr_audioenc.deb
 apt -qq -y install /tmp/odr_audioenc.deb --fix-broken
 wget "$ODR_PADENC_PACKAGE_URL" -O /tmp/odr_padenc.deb
 apt -qq -y install /tmp/odr_padenc.deb --fix-broken
+wget "$ODR_DABMUX_PACKAGE_URL" -O /tmp/odr_dabmux.deb
+apt -qq -y install /tmp/odr_dabmux.deb --fix-broken
 
 # Always ask these
 ask_user "WEB_PORT" "90" "Choose a port for the web interface" "num"

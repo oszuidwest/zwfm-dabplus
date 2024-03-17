@@ -3,6 +3,7 @@
     {
       "abbreviation": "zuidwest",
       "full_name": "ZuidWest FM",
+      "port": "7000",
       "livestream": "https://icecast.zuidwestfm.nl/zuidwest.stl",
       "bitrate": 96,
       "resample": "no"
@@ -10,6 +11,7 @@
     {
       "abbreviation": "slos",
       "full_name": "SLOS Steenbergen",
+      "port": "7010",
       "livestream": "https://i2.cdn.jetstre.am:8001/sz=SLOSteenbergen=SLOS",
       "bitrate": 96,
       "resample": "no"
@@ -17,6 +19,7 @@
     {
       "abbreviation": "tholen",
       "full_name": "Omroep Tholen",
+      "port": "7020",
       "livestream": "https://stream06.dotpoint.nl:8065/stream",
       "bitrate": 96,
       "resample": "yes"
@@ -24,6 +27,7 @@
     {
       "abbreviation": "rucphen",
       "full_name": "Radio Rucphen",
+      "port": "7030",
       "livestream": "https://stream.rucphenrtv.nl/radiorucphen.mp3",
       "bitrate": 96,
       "resample": "no"

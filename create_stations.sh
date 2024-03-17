@@ -3,9 +3,6 @@
 # Define the JSON file path
 json_file="/root/stations.json"
 
-# Starting port number
-port=7000
-
 # Iterate over each station in the JSON file
 jq -c '.stations[]' "$json_file" | while read -r station; do
   # Extract station details
@@ -13,6 +10,7 @@ jq -c '.stations[]' "$json_file" | while read -r station; do
   full_name=$(echo "$station" | jq -r '.full_name')
   livestream=$(echo "$station" | jq -r '.livestream')
   bitrate=$(echo "$station" | jq -r '.bitrate')
+  port=$(echo "$station" | jq -r '.port')
 
   # Create the directory structure for the station
   mkdir -p "/var/dab/$abbreviation/metadata"
@@ -48,6 +46,4 @@ stdout_logfile_backups=0
 stdout_logfile=/var/log/meta_${abbreviation}.log
 EOF
 
-  # Increment the port number by 10 for the next station
-  port=$((port + 10))
 done
