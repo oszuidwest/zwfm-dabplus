@@ -23,7 +23,7 @@
     "services": {
         "srv-zuidwest": {
             "id": "0x038b",
-            "label": "ZuidWest FM"
+            "label": "ZuidWest NL"
         },
         "srv-slos": {
             "id": "0x4484",
