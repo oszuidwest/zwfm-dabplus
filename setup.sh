@@ -59,35 +59,6 @@ ask_user "WEB_PORT" "90" "Choose a port for the web interface" "num"
 ask_user "WEB_USER" "admin" "Choose a username for the web interface" "str"
 ask_user "WEB_PASSWORD" "encoder" "Choose a password for the web interface" "str"
 
-# Create slideshow files
-mkdir -p /var/dab/slides/zwfm/
-wget https://rds.zuidwestfm.nl/ -O /var/dab/zwfm.txt
-wget https://www.zuidwestupdate.nl/wp-content/uploads/2023/03/favicon.png -O /var/dab/slides/zwfm/1.png
-
-# Create the configuration file for DAB+ Audio
-cat << EOF > /etc/supervisor/conf.d/10-dab-zwfm-audio.conf
-  [program:dab-zwfm-audio]
-  command=odr-audioenc -v https://icecast.zuidwestfm.nl/zuidwest.stl -b 96 -P zwmf_pad -e tcp://localhost:7000
-  autostart=true
-  autorestart=true
-  startretries=9999999999999999999999999999999999999999999999999
-  stdout_logfile_maxbytes=0MB
-  stdout_logfile_backups=0
-  stdout_logfile=/var/log/encoder.log
-EOF
-
-# Create the configuration file for DAB+ PAD metadata
-cat << EOF > /etc/supervisor/conf.d/20-dab-zwfm-metadata.conf
-  [program:dab-zwfm-metadata]
-  command=odr-padenc --dls=/var/dab/zwfm.txt --dir=/var/dab/slides/zwfm/ --output=zwmf_pad
-  autostart=true
-  autorestart=true
-  startretries=9999999999999999999999999999999999999999999999999
-  stdout_logfile_maxbytes=0MB
-  stdout_logfile_backups=0
-  stdout_logfile=/var/log/metadata.log
-EOF
-
 # Configure the web interface
 if ! grep -q "\[inet_http_server\]" /etc/supervisor/supervisord.conf; then
   sed -i "/\[supervisord\]/i\
