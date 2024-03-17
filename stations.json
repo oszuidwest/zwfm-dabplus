@@ -2,7 +2,7 @@
   "stations": [
     {
       "abbreviation": "zuidwest",
-      "full_name": "ZuidWest FM",
+      "full_name": "ZuidWest NL",
       "port": "7000",
       "livestream": "https://icecast.zuidwestfm.nl/zuidwest.stl",
       "bitrate": 96,
