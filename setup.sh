@@ -24,7 +24,7 @@ OS_ARCH=$(dpkg --print-architecture)
 # Validate OS version
 SUPPORTED_OS=("12" "11")
 if [[ ! " ${SUPPORTED_OS[*]} " =~ ${OS_VERSION} ]]; then
-  printf "This script does not support '%s' OS version. Exiting.\n" "$OS_VERSION"
+  printf "This script does not support Debian version '%s'. Exiting.\n" "$OS_VERSION"
   exit 1
 fi
 
