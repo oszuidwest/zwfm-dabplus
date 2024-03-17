@@ -1,0 +1,31 @@
+name: Update Mux
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-mux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install uuid
+
+      - name: Update mux file
+        run: node updateMux.js
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add mux.json
+          git commit -m "Update mux with new or changed stations" -a || echo "No changes to commit"
+          git push
