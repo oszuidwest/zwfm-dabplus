@@ -1,0 +1,35 @@
+name: Update MUX Configuration
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-mux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Update mux.json
+      run: |
+        jq '.services = {}' mux.json > tmp.$$ && mv tmp.$$ mux.json
+        jq -c '.stations[]' stations.json | while read station; do
+          abbreviation=$(echo $station | jq -r '.abbreviation')
+          full_name=$(echo $station | jq -r '.full_name')
+          service_id=$(printf "0x%x" $((RANDOM%4096)))
+          service_name="srv-$abbreviation"
+          jq --arg service_name "$service_name" \
+             --arg service_id "$service_id" \
+             --arg label "$full_name" \
+             '.services[$service_name] = {"id": $service_id, "label": $label}' \
+             mux.json > tmp.$$ && mv tmp.$$ mux.json
+        done
+
+    - name: Commit and push if changed
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email 'action@github.com'
+        git add mux.json
+        git commit -m "Update mux.json with new DAB stations" || exit 0
+        git push
