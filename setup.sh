@@ -8,6 +8,7 @@ if ! curl -s -o /tmp/functions.sh https://raw.githubusercontent.com/oszuidwest/b
   exit 1
 fi
 
+# Load functions library
 source /tmp/functions.sh
 
 # Configure environment
@@ -45,3 +46,26 @@ fi
 install_packages silent supervisor logrotate
 wget "$ODR_AUDIOENC_PACKAGE_URL" -O /tmp/odr_audioenc.deb
 apt -qq -y install /tmp/odr_audioenc.deb --fix-broken
+
+# Always ask these
+ask_user "WEB_PORT" "90" "Choose a port for the web interface" "num"
+ask_user "WEB_USER" "admin" "Choose a username for the web interface" "str"
+ask_user "WEB_PASSWORD" "encoder" "Choose a password for the web interface" "str"
+
+# Configure the web interface
+if ! grep -q "\[inet_http_server\]" /etc/supervisor/supervisord.conf; then
+  sed -i "/\[supervisord\]/i\
+  [inet_http_server]\n\
+  port = 0.0.0.0:$WEB_PORT\n\
+  username = $WEB_USER\n\
+  password = $WEB_PASSWORD\n\
+  " /etc/supervisor/supervisord.conf
+  # Tidy up file after wrting to it
+  sed -i 's/^[ \t]*//' /etc/supervisor/supervisord.conf
+fi
+
+# Fin 
+echo -e "\n${GREEN}✓ Success!${NC}"
+echo -e "Reboot this device and everything should start."
+echo -e "You can connect to it's IP in the brower on port ${BOLD}$WEB_PORT${NC}."
+echo -e "The user is ${BOLD}$WEB_USER${NC} and the password you choose is ${BOLD}$WEB_PASSWORD${NC}.\n"
