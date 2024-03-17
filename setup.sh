@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Initialize the environment
+clear
+rm -f /tmp/functions.sh
+if ! curl -s -o /tmp/functions.sh https://raw.githubusercontent.com/oszuidwest/bash-functions/main/common-functions.sh; then
+  echo "*** Failed to download functions library. Please check your network connection! ***"
+  exit 1
+fi
+
+source /tmp/functions.sh
+
+# Configure environment
+set_colors
+are_we_root
+is_this_linux
+is_this_os_64bit
+set_timezone Europe/Amsterdam
+
+# Detect OS details
+OS_VERSION=$(lsb_release -sr | tr '[:upper:]' '[:lower:]')
+OS_ARCH=$(dpkg --print-architecture)
+
+# Validate OS version
+SUPPORTED_OS=("bookworm" "bullseye")
+if [[ ! " ${SUPPORTED_OS[*]} " =~ ${OS_VERSION} ]]; then
+  printf "This script does not support '%s' OS version. Exiting.\n" "$OS_VERSION"
+  exit 1
+fi
+
+# Add non-free packages (Do we need this?)
+install_packages silent software-properties-common
+apt-add-repository -y non-free
+
+# Set package URLs
+ODR_AUDIOENC_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-audioenc/odr-audioenc_"
+ODR_AUDIOENC_VERSION="3.4.0-1"
+ODR_AUDIOENC_PACKAGE_URL="${ODR_AUDIOENC_BASE_URL}_${ODR_AUDIOENC_VERSION}~${OS_VERSION}u1_${OS_ARCH}.deb"
