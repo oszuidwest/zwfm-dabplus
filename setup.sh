@@ -22,7 +22,7 @@ set_timezone Europe/Amsterdam
 OS_VERSION=$(lsb_release -sr | tr '[:upper:]' '[:lower:]')
 OS_ARCH=$(dpkg --print-architecture)
 
-# Validate OS version
+# Validate OS version (TODO: Check if this is really Debian!!)
 SUPPORTED_OS=("12" "11")
 if [[ ! " ${SUPPORTED_OS[*]} " =~ ${OS_VERSION} ]]; then
   printf "This script does not support Debian version '%s'. Exiting.\n" "$OS_VERSION"
@@ -43,7 +43,7 @@ if [ "$DO_UPDATES" == "y" ]; then
 fi
 
 # Install necessary packages
-install_packages silent supervisor logrotate
+install_packages silent supervisor logrotate vlc
 wget "$ODR_AUDIOENC_PACKAGE_URL" -O /tmp/odr_audioenc.deb
 apt -qq -y install /tmp/odr_audioenc.deb --fix-broken
 
@@ -51,6 +51,18 @@ apt -qq -y install /tmp/odr_audioenc.deb --fix-broken
 ask_user "WEB_PORT" "90" "Choose a port for the web interface" "num"
 ask_user "WEB_USER" "admin" "Choose a username for the web interface" "str"
 ask_user "WEB_PASSWORD" "encoder" "Choose a password for the web interface" "str"
+
+# Create the configuration file for supervisor
+cat << EOF > /etc/supervisor/conf.d/stream.conf
+  [program:encoder]
+  command=odr-audioenc -v https://icecast.zuidwestfm.nl/zuidwest.stl -e tcp://localhost:7000
+  autostart=true
+  autorestart=true
+  startretries=9999999999999999999999999999999999999999999999999
+  stdout_logfile_maxbytes=0MB
+  stdout_logfile_backups=0
+  stdout_logfile=/var/log/encoder.log
+EOF
 
 # Configure the web interface
 if ! grep -q "\[inet_http_server\]" /etc/supervisor/supervisord.conf; then
