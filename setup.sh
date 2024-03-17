@@ -53,8 +53,8 @@ ask_user "WEB_USER" "admin" "Choose a username for the web interface" "str"
 ask_user "WEB_PASSWORD" "encoder" "Choose a password for the web interface" "str"
 
 # Create the configuration file for supervisor
-cat << EOF > /etc/supervisor/conf.d/stream.conf
-  [program:encoder]
+cat << EOF > /etc/supervisor/conf.d/10-dab-zwfm.conf
+  [program:dab-zwfm]
   command=odr-audioenc -v https://icecast.zuidwestfm.nl/zuidwest.stl -e tcp://localhost:7000
   autostart=true
   autorestart=true
