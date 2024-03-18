@@ -1,0 +1,41 @@
+name: Sync stations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'stations.json'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up SSH Keys
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Generate encoders
+        run: node createEncoders.js
+
+      - name: Sync encoders
+        run: |
+          rsync -avz --delete ./encoders/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/${{ secrets.ENCODERS_CONF_PATH }}
+
+      - name: Reload encoders
+        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'supervisorctl reread && supervisorctl update'
