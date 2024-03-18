@@ -73,16 +73,27 @@
         }
     },
     "components": {
-        "comp-fu": {
-            "service": "srv-fu",
-            "subchannel": "sub-fu"
-        },
-        "comp-ri": {
-            "service": "srv-ri",
-            "subchannel": "sub-ri",
+        "comp-zuidwest": {
+            "service": "srv-zuidwest",
+            "subchannel": "sub-zuidwest",
             "user-applications": {
                 "userapp": "slideshow"
             }
+        },
+        "comp-slos": {
+            "service": "srv-slos",
+            "subchannel": "sub-slos"
+        },
+        "comp-tholen": {
+            "service": "srv-tholen",
+            "subchannel": "sub-tholen",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-rucphen": {
+            "service": "srv-rucphen",
+            "subchannel": "sub-rucphen"
         }
     },
     "outputs": {
