@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'stations.json'
+  workflow_dispatch:
 
 jobs:
   update-mux:
