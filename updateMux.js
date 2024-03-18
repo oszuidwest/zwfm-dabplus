@@ -34,7 +34,10 @@ fs.readFile(stationsFilePath, 'utf8', (err, data) => {
         // Remove all existing services
         mux.services = {};
 
-        // Add each station as a service in the mux data
+        // Clear all existing subchannels
+        mux.subchannels = {};
+
+        // Add each station as a service and a subchannel in the mux data
         stations.forEach(station => {
             const serviceName = `srv-${station.abbreviation}`;
             const serviceId = generateIdFromAbbreviation(station.abbreviation);
@@ -42,6 +45,16 @@ fs.readFile(stationsFilePath, 'utf8', (err, data) => {
             mux.services[serviceName] = {
                 id: serviceId,
                 label: station.full_name
+            };
+
+            const subchannelName = `sub-${station.abbreviation}`;
+            mux.subchannels[subchannelName] = {
+                type: "dabplus",
+                bitrate: station.bitrate,
+                id: 69, // Assuming a static ID for now, might need dynamic generation
+                protection: 1,
+                inputproto: "edi",
+                inputuri: `tcp://0.0.0.0:${station.port}`
             };
         });
 
