@@ -34,7 +34,7 @@ fs.readFile(stationsFilePath, 'utf8', (err, data) => {
         // Remove all existing services
         mux.services = {};
 
-        // Clear all existing subchannels
+        // Remove all existing subchannels
         mux.subchannels = {};
 
         // Add each station as a service and a subchannel in the mux data
@@ -52,7 +52,7 @@ fs.readFile(stationsFilePath, 'utf8', (err, data) => {
                 type: "dabplus",
                 bitrate: station.bitrate,
                 id: 69, // Assuming a static ID for now, might need dynamic generation
-                protection: 1,
+                protection: 3, // Level 1 represents the strongest and Level 4 the lowest error protection, the most used is 3
                 inputproto: "edi",
                 inputuri: `tcp://0.0.0.0:${station.port}`
             };
