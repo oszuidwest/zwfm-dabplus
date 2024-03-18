@@ -39,34 +39,37 @@
         }
     },
     "subchannels": {
-        "sub-fu": {
-            "type": "audio",
-            "bitrate": 128,
-            "id": 10,
-            "protection": 3,
-            "inputfile": "funk.mp2"
-        },
-        "sub-bla": {
-            "type": "audio",
-            "bitrate": 96,
-            "id": 1,
-            "protection": 1,
-            "inputproto": "edi",
-            "inputuri": "tcp://0.0.0.0:9001",
-            "buffer-management": "prebuffering",
-            "buffer": 40,
-            "prebuffering": 20
-        },
-        "sub-ri": {
+        "sub-zuidwest": {
             "type": "dabplus",
             "bitrate": 96,
-            "id": 1,
-            "protection": 3,
+            "id": 69,
+            "protection": 1,
             "inputproto": "edi",
-            "inputuri": "tcp://127.0.0.1:9000",
-            "buffer-management": "timestamped",
-            "buffer": 500,
-            "tist-delay": 10
+            "inputuri": "tcp://0.0.0.0:7000"
+        },
+        "sub-slos": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 69,
+            "protection": 1,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7010"
+        },
+        "sub-tholen": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 69,
+            "protection": 1,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7020"
+        },
+        "sub-rucphen": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 69,
+            "protection": 1,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7030"
         }
     },
     "components": {
