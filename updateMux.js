@@ -31,11 +31,12 @@ fs.readFile(stationsFilePath, 'utf8', (err, data) => {
 
         const mux = JSON.parse(data);
 
-        // Remove all existing services and subchannels
+        // Clear existing services, subchannels, and components
         mux.services = {};
         mux.subchannels = {};
+        mux.components = {};
 
-        // Add each station as a service and a subchannel in the mux data
+        // Add each station as a service, subchannel, and component in the mux data
         stations.forEach((station, index) => {
             const serviceName = `srv-${station.abbreviation}`;
             const serviceId = generateIdFromAbbreviation(station.abbreviation);
@@ -56,6 +57,20 @@ fs.readFile(stationsFilePath, 'utf8', (err, data) => {
                 inputproto: "edi",
                 inputuri: `tcp://0.0.0.0:${station.port}`
             };
+
+            const componentId = `comp-${station.abbreviation}`;
+            // Add the component for the station
+            mux.components[componentId] = {
+                service: serviceName,
+                subchannel: subchannelName
+            };
+
+            // Only add the user-applications if slideshow is enabled
+            if (station.slideshow === "yes") {
+                mux.components[componentId]["user-applications"] = {
+                    userapp: "slideshow"
+                };
+            }
         });
 
         // Write the updated mux data back to the mux.json file
