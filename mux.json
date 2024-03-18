@@ -42,32 +42,32 @@
         "sub-zuidwest": {
             "type": "dabplus",
             "bitrate": 96,
-            "id": 69,
-            "protection": 1,
+            "id": 1,
+            "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7000"
         },
         "sub-slos": {
             "type": "dabplus",
             "bitrate": 96,
-            "id": 69,
-            "protection": 1,
+            "id": 2,
+            "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7010"
         },
         "sub-tholen": {
             "type": "dabplus",
             "bitrate": 96,
-            "id": 69,
-            "protection": 1,
+            "id": 3,
+            "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7020"
         },
         "sub-rucphen": {
             "type": "dabplus",
             "bitrate": 96,
-            "id": 69,
-            "protection": 1,
+            "id": 4,
+            "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7030"
         }
