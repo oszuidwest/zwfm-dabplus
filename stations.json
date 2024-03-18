@@ -6,7 +6,7 @@
       "port": "7000",
       "livestream": "https://icecast.zuidwestfm.nl/zuidwest.stl",
       "bitrate": 96,
-      "slideshow": "no"
+      "slideshow": "yes"
     },
     {
       "abbreviation": "slos",
