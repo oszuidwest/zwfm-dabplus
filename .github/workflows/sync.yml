@@ -33,6 +33,8 @@ jobs:
       - name: Generate encoders
         run: node createEncoders.js
 
+       # TODO: Create dirs for encoders (re-implement `create_dirs.sh`)
+
       - name: Sync encoders
         run: |
           rsync -avz --delete ./encoders/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/${{ secrets.ENCODERS_CONF_PATH }}

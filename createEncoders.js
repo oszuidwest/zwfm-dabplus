@@ -1,4 +1,4 @@
-// Try to re-implement `create_encoders.sh` in JS
+// This file creates encoder configuation files for our DAB+ stations
 
 const fs = require('fs');
 const path = require('path');
