@@ -13,13 +13,13 @@ jq -c '.stations[]' "$json_file" | while IFS= read -r station; do
   port=$(jq -r '.port' <<< "$station")
   
   # Create the directory structure for the station
-  mkdir -p "/var/dab/$abbreviation/metadata"
-  mkdir -p "/var/dab/$abbreviation/slideshow"
+  mkdir -p "/var/dab/stations/$abbreviation/metadata"
+  mkdir -p "/var/dab/stations/$abbreviation/slideshow"
 
   # Create the dls.txt file with the full_name of the station
-  echo "$full_name" > "/var/dab/$abbreviation/metadata/dls.txt"
+  echo "$full_name" > "/var/dab/stations/$abbreviation/metadata/dls.txt"
 
   # Create an empty PNG file for the slideshow
-  touch "/var/dab/$abbreviation/slideshow/$abbreviation.png"
+  touch "/var/dab/stations/$abbreviation/slideshow/$abbreviation.png"
 
 done

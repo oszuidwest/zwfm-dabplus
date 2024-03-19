@@ -44,7 +44,7 @@ stdout_logfile=/var/log/audio_${abbreviation}.log`;
 
     // Create the metadata configuration file content
     const metadataConfig = `[program:dab-${abbreviation}-metadata]
-command=odr-padenc --dls=/var/dab/${abbreviation}/metadata/dls.txt --dir=/var/dab/${abbreviation}/slideshow --output=${abbreviation}_pad
+command=odr-padenc --dls=/var/dab/stations/${abbreviation}/metadata/dls.txt --dir=/var/dab/stations/${abbreviation}/slideshow --output=${abbreviation}_pad
 autostart=true
 autorestart=true
 startretries=9999999999999999999999999999999999999999999999999
