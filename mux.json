@@ -41,7 +41,7 @@
     "subchannels": {
         "sub-zuidwest": {
             "type": "dabplus",
-            "bitrate": 128,
+            "bitrate": 96,
             "id": 1,
             "protection": 3,
             "inputproto": "edi",
@@ -49,7 +49,7 @@
         },
         "sub-slos": {
             "type": "dabplus",
-            "bitrate": 128,
+            "bitrate": 96,
             "id": 2,
             "protection": 3,
             "inputproto": "edi",
@@ -57,7 +57,7 @@
         },
         "sub-tholen": {
             "type": "dabplus",
-            "bitrate": 128,
+            "bitrate": 96,
             "id": 3,
             "protection": 3,
             "inputproto": "edi",
@@ -65,7 +65,7 @@
         },
         "sub-rucphen": {
             "type": "dabplus",
-            "bitrate": 128,
+            "bitrate": 96,
             "id": 4,
             "protection": 3,
             "inputproto": "edi",
