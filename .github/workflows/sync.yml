@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint-stations:
+  validate-stations:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,11 +21,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Lint stations file
-        run: node lint.js
+      - name: Validate stations file
+        run: node test/validate-stations.js
 
   deploy-encoders:
-    needs: lint-stations
+    needs: validate-stations
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +37,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install Node.js dependencies
+        run: npm install canvas
+
       - name: Set up SSH Keys
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -47,20 +50,23 @@ jobs:
           ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Generate directory structure
-        run: |
-          node generator-dirs.js | ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'xargs -I {} mkdir -p "{}"'
+        run: node scripts/generator-dirs.js
 
       - name: Generate encoders
-        run: node generator-encoders.js
+        run: node scripts/generator-encoders.js
 
       - name: Sync encoders
         run: |
-          rsync -avz --delete ./encoders/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/${{ secrets.ENCODERS_CONF_PATH }}
+          rsync -avc --delete ./encoders/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.ENCODERS_CONF_PATH }}
+
+      - name: Sync directory structure
+        run: |
+          rsync -avc --delete ./stations/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/dab/stations/
 
       - name: Reload encoders
         run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'supervisorctl reread && supervisorctl update'
 
-  build-mux:
+  build-multiplex:
     needs: deploy-encoders
     runs-on: ubuntu-latest
 
@@ -83,21 +89,21 @@ jobs:
           ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Generate mux file
-        run: node generator-mux.js
+        run: node scripts/generator-mux.js
 
       - name: Commit new mux to GitHub
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
-          git add mux.json
+          git add config/mux.json
           git commit -m "New mux with updated stations" -a || echo "No changes to commit"
           git push
 
-      - name: Check if mux.json changed
+      - name: Check if config/mux.json changed
         id: check_mux_changed
         run: |
           if [[ $(git rev-list --count HEAD) -gt 1 ]]; then
-            CHANGED=$(git diff --name-only HEAD HEAD~1 | grep -w mux.json | wc -l)
+            CHANGED=$(git diff --name-only HEAD HEAD~1 | grep -w config/mux.json | wc -l)
           else
             CHANGED=0
           fi
@@ -111,7 +117,7 @@ jobs:
       - name: Sync mux to server
         if: env.MUX_CHANGED == '1'
         run: |
-          rsync -avz --delete mux.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/dab/mux/mux.json
+          rsync -avc --delete ./config/mux.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/dab/mux/mux.json
 
       - name: Schedule mux restart
         if: env.MUX_CHANGED == '1'

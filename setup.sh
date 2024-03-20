@@ -46,7 +46,7 @@ ODR_DABMUX_PACKAGE_URL="${ODR_DABMUX_BASE_URL}_${ODR_DABMUX_VERSION}~deb${OS_VER
 
 # Set-up dab mux service
 DABMUX_SERVICE_PATH="/etc/systemd/system/dabmux.service"
-DABMUX_SERVICE_URL="https://raw.githubusercontent.com/oszuidwest/zwfm-dabplus/main/dabmux.service"
+DABMUX_SERVICE_URL="https://raw.githubusercontent.com/oszuidwest/zwfm-dabplus/main/config/dabmux.service"
 
 # User input for script execution
 ask_user "DO_UPDATES" "y" "Do you want to perform all OS updates? (y/n)" "y/n"
@@ -97,12 +97,12 @@ if ! crontab -l 2>/dev/null; then
   echo "No crontab for $(whoami). Creating one..."
   echo "" | crontab -
 fi
-# Add the new cron job if it does not already exist
-if ! crontab -l | grep -F -- "$DABMUX_RESTART_CRONJOB=" > /dev/null; then
-  (crontab -l 2>/dev/null; echo "$DABMUX_RESTART_CRONJOB=") | crontab -
-else
-  echo -e "${YELLOW}Mux restart cronjob already exists. No changes made.${NC}"
-fi
+# Add the DABMUX_RESTART_CRONJOB to the crontab if it's not already present
+(crontab -l 2>/dev/null | grep -Fv "${DABMUX_RESTART_CRONJOB}"; echo "${DABMUX_RESTART_CRONJOB}") | crontab -
+
+# Create basic dir
+mkdir -p /var/dab/stations/
+mkdir -p /var/dab/mux/
 
 # Fin 
 echo -e "\n${GREEN}✓ Success!${NC}"

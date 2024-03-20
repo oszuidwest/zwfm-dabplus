@@ -1,5 +1,5 @@
 [Unit]
-Description=DAB+ Mux
+Description=DAB+ Multiplexer
 After=network.target
 Documentation=https://github.com/oszuidwest/rpi-umpx-decoder
 

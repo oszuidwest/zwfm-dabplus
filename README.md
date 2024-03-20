@@ -1,6 +1,6 @@
 # ZuidWest DAB+
 
-This project is an experiment to implement a DAB+ broadcasting workflow using Opendigitalradio tools, aimed at creating a DAB+ multiplex for Streekomroep ZuidWest (covering allotments 49 and 50 in the Netherlands).
+This project aims to implement a DAB+ broadcasting workflow using [Open Digital Radio tools](https://www.opendigitalradio.org), aimed at creating a DAB+ multiplex for Streekomroep ZuidWest (covering allotments 49 and 50 in the Netherlands).
 
 ## Architecture
 
@@ -10,7 +10,7 @@ The system automatically generates all necessary configurations from the editabl
 - A supervisor tool oversees these encoding processes.
 - NodeJS scripts are used to produce all required configuration files, such as `mux.json` for `ODR-DabMux`.
 - Whenever changes occur, the updated configuration files are deployed to the server and the affected processes are restarted.
-- A full multiplex restart is scheduled at 3 AM to accommodate adjustments in the mux, due to `ODR-DabMux` lacking support for live reloading (Note: Implementation via cronjob or service is pending).
+- A full multiplex restart is scheduled at 3 AM to accommodate adjustments in the mux, due to `ODR-DabMux` lacking support for live reloading.
 
 ## CI/CD
 
@@ -18,17 +18,26 @@ Work in Progress
 
 ## Repository Contents
 
-### Initial Setup Scripts in Bash
-- `setup.sh`: Initializes a server equipped with odr-audioenc, odr-padenc, and odr-dabmux.
-- `create_files.sh`: Generates dummy metadata and slideshow files (Note: Integration into a GitHub Action is planned).
-
-### Configuration Generators in NodeJS
-- `generator-dirs.js`: Generate a directory framework for the stations.
-- `generator-encoders.js`: Generates encoder configuration files.
-- `generator-mux.js`: Assembles the `mux.json` file to be utilized by `ODR-DabMux`.
-
-### User-Defined Configuration
-- `stations.json`: Lists the stations included in the multiplex.
-
-### Automatically Generated Configurations
-- `mux.json`: The multiplex configuration for ODR-DabMux, created by the generator.
+```
+ZuidWest-DAB+/
+│
+├── .github/                   # GitHub specific files like workflows and actions
+│   └── workflows/             # CI/CD workflows
+│
+├── config/                    # Configuration files
+│   ├── dabmux.service         # Service file for the DAB multiplexer
+│   └── mux.json               # Auto-generated multiplexer configuration
+│
+├── scripts/                   # Node helper scripts
+│   ├── generator-dirs.js      # Node.js script to generate directories
+│   ├── generator-encoders.js  # Node.js script for encoder configuration
+│   └── generator-mux.js       # Node.js script for multiplexer configuration
+│
+├── test/                      # Automated tests
+│   └── validate-stations.js   # Validates the configuration in stations.json
+│
+├── stations.json              # User-edited station configuration (Edit this to get started)
+├── setup.sh                   # Shell script for inital server setup
+├── .gitignore                 # Specifies intentionally untracked files to ignore
+└── README.md                  # Project overview and documentation
+```

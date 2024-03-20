@@ -23,19 +23,23 @@
     "services": {
         "srv-zuidwest": {
             "id": "0x038b",
-            "label": "ZuidWest FM"
+            "label": "ZuidWest FM",
+            "shortlabel": "ZuidWest"
         },
         "srv-slos": {
             "id": "0x4484",
-            "label": "SLOS Steenbergen"
+            "label": "SLOS Steenbergen",
+            "shortlabel": "SLOS"
         },
         "srv-tholen": {
             "id": "0x833d",
-            "label": "Omroep Tholen"
+            "label": "Omroep Tholen",
+            "shortlabel": "Tholen"
         },
         "srv-rucphen": {
             "id": "0xd5c3",
-            "label": "Radio Rucphen"
+            "label": "Radio Rucphen",
+            "shortlabel": "Rucphen"
         }
     },
     "subchannels": {
