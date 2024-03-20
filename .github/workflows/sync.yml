@@ -77,9 +77,26 @@ jobs:
           git commit -m "New mux with updated stations" -a || echo "No changes to commit"
           git push
 
+      - name: Check if mux.json changed
+        id: check_mux_changed
+        run: |
+          if [[ $(git rev-list --count HEAD) -gt 1 ]]; then
+            CHANGED=$(git diff --name-only HEAD HEAD~1 | grep -w mux.json | wc -l)
+          else
+            CHANGED=0
+          fi
+          echo "MUX_CHANGED=$CHANGED" >> $GITHUB_ENV
+          if [[ "$CHANGED" -eq "1" ]]; then
+            echo "Mux has changed. Running sync steps."
+          else
+            echo "Mux has not changed. Skipping sync steps."
+          fi
+
       - name: Sync mux to server
+        if: env.MUX_CHANGED == '1'
         run: |
           rsync -avz --delete mux.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/dab/mux/mux.json
 
       - name: Schedule mux restart
+        if: env.MUX_CHANGED == '1'
         run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'touch /tmp/.restart-mux-needed'
