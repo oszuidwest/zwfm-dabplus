@@ -36,6 +36,66 @@
         "srv-rucphen": {
             "id": "0xd5c3",
             "label": "Radio Rucphen"
+        },
+        "srv-valencia": {
+            "id": "0x626b",
+            "label": "Radio Valencia"
+        },
+        "srv-orts": {
+            "id": "0x9471",
+            "label": "ORTS Radio"
+        },
+        "srv-tilburg": {
+            "id": "0x4a8b",
+            "label": "Omroep Tilburg"
+        },
+        "srv-drimmelen": {
+            "id": "0x33d0",
+            "label": "Omroep Drimmelen"
+        },
+        "srv-breda": {
+            "id": "0x9af9",
+            "label": " BredaNU Radio"
+        },
+        "srv-glow": {
+            "id": "0xd276",
+            "label": "Glow FM"
+        },
+        "srv-altena": {
+            "id": "0x2bf3",
+            "label": "Radio A-FM"
+        },
+        "srv-horizon": {
+            "id": "0x4726",
+            "label": "RTV Horizon"
+        },
+        "srv-s040": {
+            "id": "0xf19f",
+            "label": "Studio040"
+        },
+        "srv-best": {
+            "id": "0x8f43",
+            "label": "Omroep Best"
+        },
+        "srv-continu": {
+            "id": "0x3c66",
+            "label": "Radio Continu"
+        },
+        "srv-p24": {
+            "id": "0xd841",
+            "label": "Punt24"
+        },
+        "srv-73": {
+            "id": "0x9606",
+            "label": "Radio73"
+        },
+        "srv-veldhoven": {
+            "id": "0xef88",
+            "label": "Omroep Veldhoven"
+        },
+        "srv-lvc": {
+            "id": "0x14d3",
+            "label": "Omroep LVC - Land van Cuijk"
         }
     },
     "subchannels": {
@@ -70,6 +130,126 @@
             "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7030"
+        },
+        "sub-valencia": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 5,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7040"
+        },
+        "sub-orts": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 6,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7050"
+        },
+        "sub-tilburg": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 7,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7060"
+        },
+        "sub-drimmelen": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 8,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7070"
+        },
+        "sub-breda": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 9,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7080"
+        },
+        "sub-glow": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 10,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7090"
+        },
+        "sub-altena": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 11,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7100"
+        },
+        "sub-horizon": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 12,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7110"
+        },
+        "sub-s040": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 13,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7120"
+        },
+        "sub-best": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 14,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7130"
+        },
+        "sub-continu": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 15,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7140"
+        },
+        "sub-p24": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 16,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7150"
+        },
+        "sub-73": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 17,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7160"
+        },
+        "sub-veldhoven": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 18,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7170"
+        },
+        "sub-lvc": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 19,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7180"
         }
     },
     "components": {
@@ -94,6 +274,87 @@
         "comp-rucphen": {
             "service": "srv-rucphen",
             "subchannel": "sub-rucphen"
+        },
+        "comp-valencia": {
+            "service": "srv-valencia",
+            "subchannel": "sub-valencia"
+        },
+        "comp-orts": {
+            "service": "srv-orts",
+            "subchannel": "sub-orts",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-tilburg": {
+            "service": "srv-tilburg",
+            "subchannel": "sub-tilburg"
+        },
+        "comp-drimmelen": {
+            "service": "srv-drimmelen",
+            "subchannel": "sub-drimmelen",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-breda": {
+            "service": "srv-breda",
+            "subchannel": "sub-breda"
+        },
+        "comp-glow": {
+            "service": "srv-glow",
+            "subchannel": "sub-glow",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-altena": {
+            "service": "srv-altena",
+            "subchannel": "sub-altena"
+        },
+        "comp-horizon": {
+            "service": "srv-horizon",
+            "subchannel": "sub-horizon",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-s040": {
+            "service": "srv-s040",
+            "subchannel": "sub-s040"
+        },
+        "comp-best": {
+            "service": "srv-best",
+            "subchannel": "sub-best",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-continu": {
+            "service": "srv-continu",
+            "subchannel": "sub-continu"
+        },
+        "comp-p24": {
+            "service": "srv-p24",
+            "subchannel": "sub-p24",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-73": {
+            "service": "srv-73",
+            "subchannel": "sub-73"
+        },
+        "comp-veldhoven": {
+            "service": "srv-veldhoven",
+            "subchannel": "sub-veldhoven",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-lvc": {
+            "service": "srv-lvc",
+            "subchannel": "sub-lvc"
         }
     },
     "outputs": {
