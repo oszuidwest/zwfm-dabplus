@@ -22,24 +22,6 @@ jq -c '.stations[]' "$json_file" | while IFS= read -r station; do
   
   echo "Processing station: $abbreviation"
 
-  # Create the directory structure for the station
-  mkdir -p "/var/dab/stations/$abbreviation/metadata"
-  mkdir_status=$?
-  mkdir -p "/var/dab/stations/$abbreviation/slideshow"
-  mkdir_slideshow_status=$?
-
-  if [ $mkdir_status -ne 0 ]; then
-    echo "Failed to create metadata directory for $abbreviation"
-  else
-    echo "Metadata directory created for $abbreviation"
-  fi
-
-  if [ $mkdir_slideshow_status -ne 0 ]; then
-    echo "Failed to create slideshow directory for $abbreviation"
-  else
-    echo "Slideshow directory created for $abbreviation"
-  fi
-
   # Create the dls.txt file with the full_name of the station
   echo "$full_name" > "/var/dab/stations/$abbreviation/metadata/dls.txt"
   echo_status=$?

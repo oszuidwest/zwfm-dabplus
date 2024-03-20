@@ -20,11 +20,12 @@ Work in Progress
 
 ### Initial Setup Scripts in Bash
 - `setup.sh`: Initializes a server equipped with odr-audioenc, odr-padenc, and odr-dabmux.
-- `create_dirs.sh`: Establishes a directory framework for the stations (Note: Integration into a GitHub Action is planned).
+- `create_files.sh`: Generates dummy metadata and slideshow files (Note: Integration into a GitHub Action is planned).
 
 ### Configuration Generators in NodeJS
-- `createEncoders.js`: Generates encoder configuration files.
-- `updateMux.js`: Assembles the `mux.json` file to be utilized by `ODR-DabMux`.
+- `generator-dirs.js`: Generate a directory framework for the stations.
+- `generator-encoders.js`: Generates encoder configuration files.
+- `generator-mux.js`: Assembles the `mux.json` file to be utilized by `ODR-DabMux`.
 
 ### User-Defined Configuration
 - `stations.json`: Lists the stations included in the multiplex.

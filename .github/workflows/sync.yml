@@ -30,10 +30,12 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Generate encoders
-        run: node createEncoders.js
+      - name: Generate directory structure
+        run: |
+          node generator-dirs.js | ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'xargs -I {} mkdir -p "{}"'
 
-       # TODO: Create dirs for encoders (re-implement `create_dirs.sh`)
+      - name: Generate encoders
+        run: node generator-encoders.js
 
       - name: Sync encoders
         run: |
@@ -64,8 +66,8 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Update mux file
-        run: node updateMux.js
+      - name: Generate mux file
+        run: node generator-mux.js
 
       - name: Commit new mux to GitHub
         run: |
