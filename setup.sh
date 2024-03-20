@@ -45,8 +45,8 @@ ODR_DABMUX_VERSION="4.4.1-1"
 ODR_DABMUX_PACKAGE_URL="${ODR_DABMUX_BASE_URL}_${ODR_DABMUX_VERSION}~deb${OS_VERSION}u1_${OS_ARCH}.deb"
 
 # Set-up dab mux service
-RAMDISK_SERVICE_PATH="/etc/systemd/system/dabmux.service"
-RAMDISK_SERVICE_URL="https://raw.githubusercontent.com/oszuidwest/zwfm-dabplus/main/dabmux.service"
+DABMUX_SERVICE_PATH="/etc/systemd/system/dabmux.service"
+DABMUX_SERVICE_URL="https://raw.githubusercontent.com/oszuidwest/zwfm-dabplus/main/dabmux.service"
 
 # User input for script execution
 ask_user "DO_UPDATES" "y" "Do you want to perform all OS updates? (y/n)" "y/n"
