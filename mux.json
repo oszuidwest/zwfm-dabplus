@@ -98,7 +98,6 @@
     },
     "outputs": {
         "throttle": "simul://",
-        "stdout": "fifo:///dev/stdout?type=raw",
         "edi": {
             "destinations": {
                 "example_tcp": {
