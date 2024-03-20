@@ -1,0 +1,13 @@
+[Unit]
+Description=DAB+ Mux
+After=network.target
+Documentation=https://github.com/oszuidwest/rpi-umpx-decoder
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/odr-dabmux /var/dab/mux/mux.json
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Alias=micrompx.service

@@ -99,4 +99,4 @@ jobs:
 
       - name: Schedule mux restart
         if: env.MUX_CHANGED == '1'
-        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'touch /tmp/.restart-mux-needed'
+        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'touch /tmp/.restart-dabmux-needed'

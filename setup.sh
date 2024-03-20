@@ -44,6 +44,10 @@ ODR_DABMUX_BASE_URL="https://debian.opendigitalradio.org/pool/main/o/odr-dabmux/
 ODR_DABMUX_VERSION="4.4.1-1"
 ODR_DABMUX_PACKAGE_URL="${ODR_DABMUX_BASE_URL}_${ODR_DABMUX_VERSION}~deb${OS_VERSION}u1_${OS_ARCH}.deb"
 
+# Set-up dab mux service
+RAMDISK_SERVICE_PATH="/etc/systemd/system/dabmux.service"
+RAMDISK_SERVICE_URL="https://raw.githubusercontent.com/oszuidwest/zwfm-dabplus/main/dabmux.service"
+
 # User input for script execution
 ask_user "DO_UPDATES" "y" "Do you want to perform all OS updates? (y/n)" "y/n"
 
@@ -76,6 +80,28 @@ if ! grep -q "\[inet_http_server\]" /etc/supervisor/supervisord.conf; then
   " /etc/supervisor/supervisord.conf
   # Tidy up file after wrting to it
   sed -i 's/^[ \t]*//' /etc/supervisor/supervisord.conf
+fi
+
+# Add a service for ODR-DabMux
+echo -e "${BLUE}►► Setting up service for ODR-DabMux...${NC}"
+rm -f "$DABMUX_SERVICE_PATH" > /dev/null
+curl -s -o "$DABMUX_SERVICE_PATH" "$DABMUX_SERVICE_URL"
+systemctl daemon-reload > /dev/null
+systemctl enable dabmux > /dev/null
+
+# Add a watcher for dabmux restarts
+DABMUX_RESTART_CRONJOB="0 3 * * * [ -f /tmp/.restart-dabmux-needed ] && systemctl restart dabmux && rm -f /tmp/.restart-dabmux-needed"
+echo -e "${BLUE}►► Setting up cronjob for dabmux restart...${NC}"
+# Check if the crontab exists for the current user, create one if not
+if ! crontab -l 2>/dev/null; then
+  echo "No crontab for $(whoami). Creating one..."
+  echo "" | crontab -
+fi
+# Add the new cron job if it does not already exist
+if ! crontab -l | grep -F -- "$DABMUX_RESTART_CRONJOB=" > /dev/null; then
+  (crontab -l 2>/dev/null; echo "$DABMUX_RESTART_CRONJOB=") | crontab -
+else
+  echo -e "${YELLOW}Mux restart cronjob already exists. No changes made.${NC}"
 fi
 
 # Fin 
