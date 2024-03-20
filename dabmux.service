@@ -5,7 +5,7 @@ Documentation=https://github.com/oszuidwest/rpi-umpx-decoder
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/odr-dabmux /var/dab/mux/mux.json
+ExecStart=odr-dabmux /var/dab/mux/mux.json
 Restart=always
 
 [Install]
