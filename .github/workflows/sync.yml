@@ -9,7 +9,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  lint-stations:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Lint stations file
+        run: node lint.js
+
   deploy-encoders:
+    needs: lint-stations
     runs-on: ubuntu-latest
 
     steps:
@@ -100,3 +116,4 @@ jobs:
       - name: Schedule mux restart
         if: env.MUX_CHANGED == '1'
         run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'touch /tmp/.restart-dabmux-needed'
+
