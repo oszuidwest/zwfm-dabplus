@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>ZuidWest DAB+ Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+    .tab-header {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: #f1f1f1;
+    }
+    .tab-header button {
+        flex: 1;
+        min-width: 120px; /* Minimum width for buttons to ensure usability */
+        background-color: inherit;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        text-align: center; /* Ensure text is centered, especially on smaller screens */
+    }
     .tab {
         display: none;
         border: 1px solid #ccc;
         padding: 10px;
         background-color: #f9f9f9;
     }
-    .tab-header {
-        overflow: hidden;
-        background-color: #f1f1f1;
+    .tab-header button:hover, .tab-header button.active {
+        background-color: #ccc;
     }
-    .tab-header button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-    }
-    .tab-header button:hover {
-        background-color: #ddd;
-    }
-	.tab-header button.active {
-	    background-color: #ccc;
-	}
     .station-details {
         margin-top: 5px;
         list-style-type: none;
@@ -36,6 +37,7 @@
     .vu-meter {
         height: 20px;
         background-color: #ddd;
+        width: 100%; /* Ensure the meter takes the full width of its container */
     }
     .vu-fill {
         height: 100%;
@@ -43,6 +45,17 @@
         text-align: right;
         line-height: 20px;
         color: white;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+        .tab-header button {
+            padding: 10px 8px; /* Reduce padding on smaller screens */
+            font-size: 14px; /* Adjust font size to fit smaller screens */
+        }
+        .vu-meter, .station-details p {
+            font-size: 14px; /* Smaller text for better readability on small devices */
+        }
     }
 </style>
 </head>
@@ -117,10 +130,10 @@
 		    const buttons = tabHeader.getElementsByTagName('button');
 		    for (let i = 0; i < tabs.length; i++) {
 		        tabs[i].style.display = 'none';
-		        buttons[i].classList.remove('active');
+		        buttons[i].classList.remove('active'); // Use classList API for clarity
 		    }
 		    document.getElementById(stationName).style.display = 'block';
-		    activeTabId = stationName;
+		    activeTabId = stationName; // Update the currently active tab id
 
 		    // Find and activate the button for the opened tab
 		    for (let i = 0; i < buttons.length; i++) {
