@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <title>ZuidWest DAB+ Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
+    <style>
     .tab-header {
         display: flex;
         flex-wrap: wrap;
@@ -58,13 +58,13 @@
         }
     }
 </style>
-</head>
-<body>
+  </head>
+  <body>
 
-<div class="tab-header" id="tab-header"></div>
-<div id="stations-container"></div>
+    <div class="tab-header" id="tab-header"></div>
+    <div id="stations-container"></div>
 
-<script>
+    <script>
 	document.addEventListener('DOMContentLoaded', function () {
 	    const ws = new WebSocket('ws://localhost:8765');
 	    const stationsContainer = document.getElementById('stations-container');
@@ -161,5 +161,5 @@
 
 </script>
 
-</body>
+  </body>
 </html>
