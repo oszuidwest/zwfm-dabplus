@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZuidWest DAB+ Dashboard</title>
+<style>
+    .tab {
+        display: none;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+    }
+    .tab-header {
+        overflow: hidden;
+        background-color: #f1f1f1;
+    }
+    .tab-header button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+    .tab-header button:hover {
+        background-color: #ddd;
+    }
+	.tab-header button.active {
+	    background-color: #ccc;
+	}
+    .station-details {
+        margin-top: 5px;
+        list-style-type: none;
+    }
+    .vu-meter {
+        height: 20px;
+        background-color: #ddd;
+    }
+    .vu-fill {
+        height: 100%;
+        background-color: #4CAF50;
+        text-align: right;
+        line-height: 20px;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<div class="tab-header" id="tab-header"></div>
+<div id="stations-container"></div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+	    const ws = new WebSocket('ws://localhost:8765');
+	    const stationsContainer = document.getElementById('stations-container');
+	    const tabHeader = document.getElementById('tab-header');
+	    let activeTabId = ''; // Store the id of the active tab
+	    let tabsInitialized = false; // Flag to check if tabs are already initialized
+
+	    ws.onmessage = function(event) {
+	        const data = JSON.parse(event.data); // Parse the JSON data.
+
+	        if (!tabsInitialized) {
+	            // Initialize tabs only once
+	            data.configuration.forEach((station, index) => {
+	                const btn = document.createElement('button');
+	                btn.textContent = station;
+	                btn.onclick = (event) => openTab(station, event); // Pass event to openTab.
+	                tabHeader.appendChild(btn);
+
+	                const tab = document.createElement('div');
+	                tab.id = station;
+	                tab.className = 'tab';
+	                if(index === 0) { // Open the first tab by default
+	                    tab.style.display = 'block';
+	                    btn.className = 'active';
+	                    activeTabId = station;
+	                }
+	                stationsContainer.appendChild(tab);
+	            });
+	            tabsInitialized = true; // Set the flag to true after initializing tabs
+	        }
+
+	        // Update the content of each tab with new data.
+	        updateTabContents(data);
+	    };
+
+		function updateTabContents(data) {
+		    data.configuration.forEach(station => {
+		        const tab = document.getElementById(station);
+		        tab.innerHTML = ''; // Clear previous content
+
+		        const stationDetails = data.values[station];
+		        Object.keys(stationDetails).forEach(detail => {
+		            const detailItem = document.createElement('p');
+		            detailItem.textContent = `${detail}: ${stationDetails[detail]}`;
+		            tab.appendChild(detailItem);
+		        });
+
+		        const vuMeter = document.createElement('div');
+		        vuMeter.className = 'vu-meter';
+		        const vuFill = document.createElement('div');
+		        vuFill.className = 'vu-fill';
+		        // Convert peak_left from range -30 to 0 into a percentage for the width
+		        // Ensures that -30 corresponds to 0% and 0 corresponds to 100%
+		        let widthPercentage = (Math.min(Math.max(stationDetails.peak_left, -30), 0) + 30) * (100 / 30);
+		        vuFill.style.width = `${widthPercentage}%`;
+		        vuMeter.appendChild(vuFill);
+		        tab.appendChild(vuMeter);
+		    });
+		}
+
+		function openTab(stationName, event) {
+		    const tabs = document.getElementsByClassName('tab');
+		    const buttons = tabHeader.getElementsByTagName('button');
+		    for (let i = 0; i < tabs.length; i++) {
+		        tabs[i].style.display = 'none';
+		        buttons[i].classList.remove('active');
+		    }
+		    document.getElementById(stationName).style.display = 'block';
+		    activeTabId = stationName;
+
+		    // Find and activate the button for the opened tab
+		    for (let i = 0; i < buttons.length; i++) {
+		        if (buttons[i].textContent === stationName) {
+		            buttons[i].classList.add('active');
+		            break; // Stop loop once the active button is found and updated
+		        }
+		    }
+		}
+
+
+	    ws.onerror = function(event) {
+	        console.error('WebSocket error:', event);
+	    };
+
+	    ws.onopen = function(event) {
+	        console.log('WebSocket connection established');
+	    };
+
+	    ws.onclose = function(event) {
+	        console.log('WebSocket connection closed');
+	    };
+	});
+
+
+</script>
+
+</body>
+</html>
