@@ -103,6 +103,8 @@ fi
 # Create basic dir
 mkdir -p /var/dab/stations/
 mkdir -p /var/dab/mux/
+mkdir -p /var/log/dab/stations/
+mkdir -p /var/log/dab/mux/
 
 # Fin 
 echo -e "\n${GREEN}✓ Success!${NC}"
