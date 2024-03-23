@@ -31,6 +31,14 @@
       "livestream": "https://stream.rucphenrtv.nl/radiorucphen.mp3",
       "bitrate": 96,
       "slideshow": false
+    },
+    {
+      "abbreviation": "BredaNu",
+      "full_name": "BredaNu Radio",
+      "port": "7040",
+      "livestream": "https://icecast.bredanu.nl/transport",
+      "bitrate": 96,
+      "slideshow": true
     }
   ]
 }
