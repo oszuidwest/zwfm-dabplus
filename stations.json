@@ -6,7 +6,6 @@
       "port": "7000",
       "livestream": "https://icecast.zuidwestfm.nl/zuidwest.stl",
       "bitrate": 96,
-      "multiplex": 49,
       "slideshow": true
     },
     {
@@ -15,7 +14,6 @@
       "port": "7010",
       "livestream": "https://i2.cdn.jetstre.am:8001/sz=SLOSteenbergen=SLOS",
       "bitrate": 96,
-      "multiplex": [49, 50],
       "slideshow": false
     },
     {
@@ -24,7 +22,6 @@
       "port": "7020",
       "livestream": "https://stream06.dotpoint.nl:8065/stream",
       "bitrate": 96,
-      "multiplex": 49,
       "slideshow": true
     },
     {
@@ -41,7 +38,6 @@
       "port": "7040",
       "livestream": "https://icecast.bredanu.nl/transport",
       "bitrate": 96,
-      "multiplex": [49, 50],
       "slideshow": true
     }
   ]

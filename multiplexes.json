@@ -1,0 +1,22 @@
+{
+  "multiplexes": [
+    {
+      "name": "West-Brabant West",
+      "allotment": 49,
+      "stations": [
+        "ZuidWest",
+        "SLOS",
+        "Tholen"
+      ]
+    },
+    {
+      "name": "West-Brabant Oost",
+      "allotment": 50,
+      "stations": [
+        "BredaNu",
+        "ZuidWest",
+        "Rucphen"
+      ]
+    }
+  ]
+}
