@@ -40,6 +40,11 @@
             "id": "0xd5c3",
             "label": "Radio Rucphen",
             "shortlabel": "Rucphen"
+        },
+        "srv-bredanu": {
+            "id": "0x4140",
+            "label": "BredaNu Radio",
+            "shortlabel": "BredaNu"
         }
     },
     "subchannels": {
@@ -74,6 +79,14 @@
             "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7030"
+        },
+        "sub-bredanu": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 5,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7040"
         }
     },
     "components": {
@@ -98,6 +111,13 @@
         "comp-rucphen": {
             "service": "srv-rucphen",
             "subchannel": "sub-rucphen"
+        },
+        "comp-bredanu": {
+            "service": "srv-bredanu",
+            "subchannel": "sub-bredanu",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
         }
     },
     "outputs": {
