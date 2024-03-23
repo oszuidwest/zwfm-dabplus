@@ -7,8 +7,8 @@ Documentation=https://github.com/oszuidwest/rpi-umpx-decoder
 Type=simple
 ExecStart=odr-dabmux /var/dab/mux/mux.json
 Restart=always
-StandardOutput=file:/var/log/dabmux.log
-StandardError=file:/var/log/dabmux.err
+StandardOutput=file:/var/log/dab/mux/dabmux.log
+StandardError=file:/var/log/dab/mux/dabmux.err
 
 [Install]
 WantedBy=multi-user.target

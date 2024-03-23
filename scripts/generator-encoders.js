@@ -49,7 +49,7 @@ function generateConfigFiles(abbreviation, station) {
   // Audio configuration
   const audioConfig = createConfig({
     ...baseConfig,
-    stdout_logfile: `/var/log/audio_${abbreviation}.log`, // Correctly set log file path for audio
+    stdout_logfile: `/var/log/dab/stations/audio_${abbreviation}.log`, // Correctly set log file path for audio
     program: `dab-${abbreviation}-audio`,
     command: `odr-audioenc -v ${livestream} -b ${bitrate} -P ${abbreviation}_pad -e tcp://localhost:${port}`,
   });
@@ -58,7 +58,7 @@ function generateConfigFiles(abbreviation, station) {
   const slideshowDirOption = slideshow ? `--dir=/var/dab/stations/${abbreviation}/slideshow` : "";
   const metadataConfig = createConfig({
     ...baseConfig,
-    stdout_logfile: `/var/log/metadata_${abbreviation}.log`,
+    stdout_logfile: `/var/log/dab/stations/metadata_${abbreviation}.log`,
     program: `dab-${abbreviation}-metadata`,
     command: `odr-padenc --dls=/var/dab/stations/${abbreviation}/metadata/dls.txt ${slideshowDirOption} --output=${abbreviation}_pad`,
   });
