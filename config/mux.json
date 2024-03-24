@@ -40,6 +40,11 @@
             "id": "0xd5c3",
             "label": "Radio Rucphen",
             "shortlabel": "Rucphen"
+        },
+        "srv-bredanu": {
+            "id": "0x4140",
+            "label": "BredaNu Radio",
+            "shortlabel": "BredaNu"
         }
     },
     "subchannels": {
@@ -74,6 +79,14 @@
             "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7030"
+        },
+        "sub-bredanu": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 5,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7040"
         }
     },
     "components": {
@@ -86,18 +99,28 @@
         },
         "comp-slos": {
             "service": "srv-slos",
-            "subchannel": "sub-slos"
-        },
-        "comp-tholen": {
-            "service": "srv-tholen",
-            "subchannel": "sub-tholen",
+            "subchannel": "sub-slos",
             "user-applications": {
                 "userapp": "slideshow"
             }
         },
+        "comp-tholen": {
+            "service": "srv-tholen",
+            "subchannel": "sub-tholen"
+        },
         "comp-rucphen": {
             "service": "srv-rucphen",
-            "subchannel": "sub-rucphen"
+            "subchannel": "sub-rucphen",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-bredanu": {
+            "service": "srv-bredanu",
+            "subchannel": "sub-bredanu",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
         }
     },
     "outputs": {

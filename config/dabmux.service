@@ -7,6 +7,8 @@ Documentation=https://github.com/oszuidwest/zwfm-dabplus
 Type=simple
 ExecStart=odr-dabmux /etc/dab/mux/mux.json
 Restart=always
+StandardOutput=file:/var/log/dab/mux/dabmux.log
+StandardError=file:/var/log/dab/mux/dabmux.err
 
 [Install]
 WantedBy=multi-user.target
