@@ -92,10 +92,7 @@
     "components": {
         "comp-zuidwest": {
             "service": "srv-zuidwest",
-            "subchannel": "sub-zuidwest",
-            "user-applications": {
-                "userapp": "slideshow"
-            }
+            "subchannel": "sub-zuidwest"
         },
         "comp-slos": {
             "service": "srv-slos",
@@ -103,10 +100,7 @@
         },
         "comp-tholen": {
             "service": "srv-tholen",
-            "subchannel": "sub-tholen",
-            "user-applications": {
-                "userapp": "slideshow"
-            }
+            "subchannel": "sub-tholen"
         },
         "comp-rucphen": {
             "service": "srv-rucphen",
@@ -114,10 +108,7 @@
         },
         "comp-bredanu": {
             "service": "srv-bredanu",
-            "subchannel": "sub-bredanu",
-            "user-applications": {
-                "userapp": "slideshow"
-            }
+            "subchannel": "sub-bredanu"
         }
     },
     "outputs": {
