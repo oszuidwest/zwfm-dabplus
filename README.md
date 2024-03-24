@@ -10,7 +10,7 @@ The system automatically generates all necessary configurations from the editabl
 - A supervisor tool oversees these encoding processes.
 - NodeJS scripts are used to produce all required configuration files, such as `mux.json` for `ODR-DabMux`.
 - Whenever changes occur, the updated configuration files are deployed to the server and the affected processes are restarted.
-- A full multiplex restart is scheduled at 3 AM to accommodate adjustments in the mux, due to `ODR-DabMux` lacking support for live reloading.
+- If chnages require a rebuild of the mux, a full multiplex restart is scheduled at 3 AM, due to `ODR-DabMux` lacking support for live reloading.
 
 ## CI/CD
 

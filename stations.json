@@ -14,7 +14,7 @@
       "port": "7010",
       "livestream": "https://i2.cdn.jetstre.am:8001/sz=SLOSteenbergen=SLOS",
       "bitrate": 96,
-      "slideshow": true
+      "slideshow": false
     },
     {
       "abbreviation": "Tholen",
@@ -22,7 +22,7 @@
       "port": "7020",
       "livestream": "https://stream06.dotpoint.nl:8065/stream",
       "bitrate": 96,
-      "slideshow": false
+      "slideshow": true
     },
     {
       "abbreviation": "Rucphen",
@@ -30,7 +30,7 @@
       "port": "7030",
       "livestream": "https://stream.rucphenrtv.nl/radiorucphen.mp3",
       "bitrate": 96,
-      "slideshow": true
+      "slideshow": false
     },
     {
       "abbreviation": "BredaNu",

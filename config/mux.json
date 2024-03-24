@@ -99,21 +99,18 @@
         },
         "comp-slos": {
             "service": "srv-slos",
-            "subchannel": "sub-slos",
-            "user-applications": {
-                "userapp": "slideshow"
-            }
+            "subchannel": "sub-slos"
         },
         "comp-tholen": {
             "service": "srv-tholen",
-            "subchannel": "sub-tholen"
-        },
-        "comp-rucphen": {
-            "service": "srv-rucphen",
-            "subchannel": "sub-rucphen",
+            "subchannel": "sub-tholen",
             "user-applications": {
                 "userapp": "slideshow"
             }
+        },
+        "comp-rucphen": {
+            "service": "srv-rucphen",
+            "subchannel": "sub-rucphen"
         },
         "comp-bredanu": {
             "service": "srv-bredanu",
