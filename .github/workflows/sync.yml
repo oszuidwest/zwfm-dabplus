@@ -61,7 +61,7 @@ jobs:
 
       - name: Sync directory structure
         run: |
-          rsync -avc --delete ./stations/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/dab/stations/
+          rsync -avc --delete ./stations/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/etc/dab/stations/
 
       - name: Reload encoders
         run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'supervisorctl reread && supervisorctl update'
@@ -117,7 +117,7 @@ jobs:
       - name: Sync mux to server
         if: env.MUX_CHANGED == '1'
         run: |
-          rsync -avc --delete ./config/mux.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/var/dab/mux/mux.json
+          rsync -avc --delete ./config/mux.json ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/etc/dab/mux/mux.json
 
       - name: Schedule mux restart
         if: env.MUX_CHANGED == '1'

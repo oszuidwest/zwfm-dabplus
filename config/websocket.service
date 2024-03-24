@@ -1,0 +1,13 @@
+[Unit]
+Description=DAB+ Websocket
+After=network.target
+Documentation=https://github.com/oszuidwest/zwfm-dabplus
+
+[Service]
+Type=simple
+ExecStart=python3 /var/dab/web/websocket.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+Alias=websocket.service

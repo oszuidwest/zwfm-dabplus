@@ -100,9 +100,9 @@ fi
 # Add the DABMUX_RESTART_CRONJOB to the crontab if it's not already present
 (crontab -l 2>/dev/null | grep -Fv "${DABMUX_RESTART_CRONJOB}"; echo "${DABMUX_RESTART_CRONJOB}") | crontab -
 
-# Create basic dir
-mkdir -p /var/dab/stations/
-mkdir -p /var/dab/mux/
+# Create basic dirs
+mkdir -p /etc/dab/stations/
+mkdir -p /etc/dab/mux/
 mkdir -p /var/log/dab/stations/
 mkdir -p /var/log/dab/mux/
 

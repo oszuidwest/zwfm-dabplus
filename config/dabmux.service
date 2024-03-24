@@ -1,11 +1,11 @@
 [Unit]
 Description=DAB+ Multiplexer
 After=network.target
-Documentation=https://github.com/oszuidwest/rpi-umpx-decoder
+Documentation=https://github.com/oszuidwest/zwfm-dabplus
 
 [Service]
 Type=simple
-ExecStart=odr-dabmux /var/dab/mux/mux.json
+ExecStart=odr-dabmux /etc/dab/mux/mux.json
 Restart=always
 StandardOutput=file:/var/log/dab/mux/dabmux.log
 StandardError=file:/var/log/dab/mux/dabmux.err
