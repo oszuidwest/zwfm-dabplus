@@ -1,10 +1,10 @@
-// This file creates the mux.json file for ODR-DabMux
+// This file creates the a ODR-DabMux compatible configration file for each mux
+
 const fs = require("fs");
 const crypto = require("crypto");
 
-// Define the paths to the JSON files
+// Define the path to the stations JSON file
 const stationsFilePath = "./stations.json";
-const muxFilePath = "./config/mux.json";
 
 // Function to generate a consistent ID from the abbreviation
 function generateIdFromAbbreviation(abbreviation) {
@@ -21,25 +21,31 @@ fs.readFile(stationsFilePath, "utf8", (err, data) => {
 
   const { stations } = JSON.parse(data);
 
-  // Read and parse the mux JSON data
-  fs.readFile(muxFilePath, "utf8", (muxErr, muxData) => {
-    if (muxErr) {
-      console.error(`Error reading ${muxFilePath}:`, muxErr);
-      process.exit(1);
-    }
+  // Group stations by multiplex, skipping those not in a multiplex
+  const muxGroups = {};
+  stations.forEach(station => {
+    if (!station.multiplex) return;
 
-    const mux = JSON.parse(muxData);
+    const multiplexes = Array.isArray(station.multiplex) ? station.multiplex : [station.multiplex];
+    multiplexes.forEach(mux => {
+      if (!muxGroups[mux]) {
+        muxGroups[mux] = [];
+      }
+      muxGroups[mux].push(station);
+    });
+  });
 
-    mux.services = {};
-    mux.subchannels = {};
-    mux.components = {};
+  // Generate a JSON file for each multiplex
+  Object.keys(muxGroups).forEach(muxNumber => {
+    const muxFile = `./config/mux_${muxNumber}.json`;
+    const muxData = { services: {}, subchannels: {}, components: {} };
 
-    stations.forEach((station, index) => {
+    muxGroups[muxNumber].forEach((station, index) => {
       const { abbreviation } = station;
       const serviceName = `srv-${abbreviation.toLowerCase()}`;
-      const serviceId = generateIdFromAbbreviation(station.abbreviation);
+      const serviceId = generateIdFromAbbreviation(abbreviation);
 
-      mux.services[serviceName] = {
+      muxData.services[serviceName] = {
         id: serviceId,
         label: station.full_name,
         shortlabel: abbreviation,
@@ -47,7 +53,7 @@ fs.readFile(stationsFilePath, "utf8", (err, data) => {
 
       const subchannelName = `sub-${abbreviation.toLowerCase()}`;
       const subchannelId = index + 1;
-      mux.subchannels[subchannelName] = {
+      muxData.subchannels[subchannelName] = {
         type: "dabplus",
         bitrate: station.bitrate,
         id: subchannelId,
@@ -57,24 +63,24 @@ fs.readFile(stationsFilePath, "utf8", (err, data) => {
       };
 
       const componentId = `comp-${abbreviation.toLowerCase()}`;
-      mux.components[componentId] = {
+      muxData.components[componentId] = {
         service: serviceName,
         subchannel: subchannelName,
       };
 
       if (station.slideshow) {
-        mux.components[componentId]["user-applications"] = {
+        muxData.components[componentId]["user-applications"] = {
           userapp: "slideshow",
         };
       }
     });
 
-    fs.writeFile(muxFilePath, JSON.stringify(mux, null, 4), (writeErr) => {
+    fs.writeFile(muxFile, JSON.stringify(muxData, null, 4), (writeErr) => {
       if (writeErr) {
-        console.error(`Error writing to ${muxFilePath}:`, writeErr);
+        console.error(`Error writing to ${muxFile}:`, writeErr);
         process.exit(1);
       }
-      console.log("Mux file updated successfully.");
+      console.log(`Mux file ${muxFile} updated successfully.`);
     });
   });
 });
