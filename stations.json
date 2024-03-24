@@ -6,7 +6,7 @@
       "port": "7000",
       "livestream": "https://icecast.zuidwestfm.nl/zuidwest.stl",
       "bitrate": 96,
-      "slideshow": true
+      "slideshow": false
     },
     {
       "abbreviation": "SLOS",
@@ -22,7 +22,7 @@
       "port": "7020",
       "livestream": "https://stream06.dotpoint.nl:8065/stream",
       "bitrate": 96,
-      "slideshow": true
+      "slideshow": false
     },
     {
       "abbreviation": "Rucphen",
@@ -38,7 +38,7 @@
       "port": "7040",
       "livestream": "https://icecast.bredanu.nl/transport",
       "bitrate": 96,
-      "slideshow": true
+      "slideshow": false
     }
   ]
 }
