@@ -55,12 +55,12 @@ function generateConfigFiles(abbreviation, station) {
   });
 
   // Metadata configuration, conditionally including slideshow directory option
-  const slideshowDirOption = slideshow ? `--dir=/var/dab/stations/${abbreviation}/slideshow` : "";
+  const slideshowDirOption = slideshow ? `--dir=/etc/dab/stations/${abbreviation}/slideshow` : "";
   const metadataConfig = createConfig({
     ...baseConfig,
     stdout_logfile: `/var/log/dab/stations/metadata_${abbreviation}.log`,
     program: `dab-${abbreviation}-metadata`,
-    command: `odr-padenc --dls=/var/dab/stations/${abbreviation}/metadata/dls.txt ${slideshowDirOption} --output=${abbreviation}_pad`,
+    command: `odr-padenc --dls=/etc/dab/stations/${abbreviation}/metadata/dls.txt ${slideshowDirOption} --output=${abbreviation}_pad`,
   });
 
   // Generate and write the configuration files

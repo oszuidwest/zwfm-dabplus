@@ -26,12 +26,18 @@ ZuidWest-DAB+/
 │
 ├── config/                    # Configuration files
 │   ├── dabmux.service         # Service file for the DAB multiplexer
+│   ├── websocket.service      # Service file for the websocket that feeds the webinterface
 │   └── mux.json               # Auto-generated multiplexer configuration
 │
 ├── scripts/                   # Node helper scripts
 │   ├── generator-dirs.js      # Node.js script to generate directories
 │   ├── generator-encoders.js  # Node.js script for encoder configuration
 │   └── generator-mux.js       # Node.js script for multiplexer configuration
+│
+├── web/                       # Highly insecure web interface (seriously, don't put this in production)
+│   ├── index.html             # Status page for ODR-DabMux
+│   ├── websocket.py           # Python script that converts the ZeroMQ output of ODR-DabMux to a websocket
+│   └── setupweb.sh            # Set-up script for web interface
 │
 ├── test/                      # Automated tests
 │   └── validate-stations.js   # Validates the configuration in stations.json
