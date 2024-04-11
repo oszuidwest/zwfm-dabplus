@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Additional styles if needed */
+        .audio-meter {
+            height: 1rem;
+            background-color: #e5e7eb;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+        .audio-meter-bar {
+            height: 100%;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Mobile Menu Button -->
+    <div class="lg:hidden flex justify-between items-center p-4 bg-teal-600 text-white">
+        <div class="font-bold text-lg">ZuidWest DAB+</div>
+        <button id="menuToggle" class="text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+    </div>
+
+    <div class="flex flex-col lg:flex-row h-screen">
+        <!-- Sidebar, toggleable and off-canvas on smaller screens -->
+        <div id="sidebar" class="lg:block hidden bg-teal-600 text-white p-4 lg:w-64">
+            <div class="font-bold text-lg mb-6 hidden lg:block">ZuidWest DAB+</div>
+            <div class="space-y-2">
+                <div class="bg-teal-700 p-2 rounded">DASHBOARD</div>
+                <div class="p-2 rounded">MULTIPLEXES</div>
+                <div class="p-2 rounded">INPUTS</div>
+                <div class="p-2 rounded">STATIONS</div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-1 p-4 overflow-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-xl font-semibold">Dashboard</h1>
+                <div>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-2">Clear log</button>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded">View Log</button>
+                </div>
+            </div>
+
+            <!-- Multiplex info -->
+            <div class="bg-white shadow rounded p-4 mb-4">
+                <div class="flex flex-col lg:flex-row justify-between items-center mb-2">
+                    <div>
+                        <h2 class="font-semibold">Multiplex: MUX NL 49</h2>
+                        <p class="text-sm text-gray-600">Ensemble id: 6969, Label: ZuidWest Brabant, Short label: ZW BR</p>
+                    </div>
+                    <div class="text-sm mt-4 lg:mt-0">
+                        <p>Total capacity: 864 CUs</p>
+                        <p>Available: 726 CUs - In use: 138 CUs</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2 overflow-auto bg-gray-200">
+                    <div class="w-1/6 bg-green-200 rounded p-1 text-center">69 CU</div>
+                    <div class="w-1/6 bg-green-400 rounded p-1 text-center">69 CU</div>
+                </div>
+            </div>
+
+            <!-- Radio stations -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Station 1 -->
+                <div class="bg-white shadow rounded p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="font-semibold">ZuidWest</h3>
+                        <div class="text-sm">
+                            <p>LC-AAC 96 kbps / 48 kHz</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="audio-meter w-full mr-2">
+                            <div class="audio-meter-bar bg-green-400" style="width: 50%;"></div>
+                        </div>
+                        <div class="text-sm font-semibold">L-30</div>
+                        <div class="text-sm font-semibold ml-2">R-32</div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <button class="bg-blue-500 text-white px-4 py-1 rounded">+ Add</button>
+                        <button class="bg-gray-200 text-gray-700 px-4 py-1 rounded">Edit</button>
+                        <button class="bg-red-500 text-white px-4 py-1 rounded">Restart</button>
+                    </div>
+                    <p class="text-sm mt-2">Dua Lipa - Houdini</p>
+                </div>
+
+                <!-- Other stations... -->
+                <!-- Repeat the structure above for each station, changing the details accordingly. -->
+
+            </div>
+        </div>
+    </div>
+
+ <script>
+        // JavaScript to toggle the sidebar visibility
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
