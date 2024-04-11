@@ -51,7 +51,7 @@ function generateConfigFiles(abbreviation, station) {
     ...baseConfig,
     stdout_logfile: `/var/log/dab/stations/audio_${abbreviation}.log`, // Correctly set log file path for audio
     program: `dab-${abbreviation}-audio`,
-    command: `odr-audioenc -v ${livestream} -b ${bitrate} -P ${abbreviation}_pad -e tcp://localhost:${port}`,
+    command: `odr-audioenc --vlc-uri ${livestream} --bitrate ${bitrate} --pad-socket ${abbreviation}_pad --stats ${abbreviation}_stats --edi tcp://localhost:${port}`,
   });
 
   // Metadata configuration, conditionally including slideshow directory option
