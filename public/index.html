@@ -21,8 +21,8 @@
 </head>
 <body class="bg-gray-100 font-sans">
     <!-- Mobile Menu Button -->
-    <div class="lg:hidden flex justify-between items-center p-4 bg-teal-600 text-white">
-        <div class="font-bold text-lg">ZuidWest DAB+</div>
+    <div class="lg:hidden flex justify-between items-center p-4 bg-gray-800 text-white">
+        <div class="font-bold text-lg">Budget DAB+</div>
         <button id="menuToggle" class="text-white">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -32,10 +32,10 @@
 
     <div class="flex flex-col lg:flex-row h-screen">
         <!-- Sidebar, toggleable and off-canvas on smaller screens -->
-        <div id="sidebar" class="lg:block hidden bg-teal-600 text-white p-4 lg:w-64">
-            <div class="font-bold text-lg mb-6 hidden lg:block">ZuidWest DAB+</div>
+        <div id="sidebar" class="lg:block hidden bg-gray-800 text-white p-4 lg:w-64">
+            <div class="font-bold text-lg mb-6 hidden lg:block">Budget DAB+</div>
             <div class="space-y-2">
-                <div class="bg-teal-700 p-2 rounded">DASHBOARD</div>
+                <div class="bg-gray-700 p-2 rounded">DASHBOARD</div>
                 <div class="p-2 rounded">MULTIPLEXES</div>
                 <div class="p-2 rounded">ENCODERS</div>
                 <div class="p-2 rounded">STATIONS</div>
@@ -47,8 +47,7 @@
             <div class="flex justify-between items-center mb-4">
                 <h1 class="text-xl font-semibold">Dashboard</h1>
                 <div>
-                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-2">Clear log</button>
-                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded">View Log</button>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded">Logout</button>
                 </div>
             </div>
 
@@ -65,8 +64,9 @@
                     </div>
                 </div>
                 <div class="flex space-x-2 overflow-auto bg-gray-200">
-                    <div class="w-1/6 bg-green-200 rounded p-1 text-center">69 CU</div>
-                    <div class="w-1/6 bg-green-400 rounded p-1 text-center">69 CU</div>
+                    <div class="w-1/6 bg-blue-200 rounded p-1 text-center">69 CU</div>
+                    <div class="w-1/6 bg-blue-400 rounded p-1 text-center">69 CU</div>
+                    <div class="w-1/6 bg-blue-200 rounded p-1 text-center">69 CU</div>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
                     </div>
                     <div class="flex-grow flex flex-col justify-center">
                         <div class="mb-2">
-                            <h3 class="font-semibold text-right mb-1">ZuidWest</h3>
+                            <h3 class="font-semibold text-right mb-1">ZuidWest FM</h3>
                             <p class="text-sm text-right">LC-AAC 96 kbps / 48 kHz</p>
                         </div>
                         <div>
@@ -105,7 +105,72 @@
                         <p class="text-sm mt-4 text-left">Dua Lipa - Houdini</p>
                     </div>
                 </div>
-                <!-- Other stations... -->
+                <!-- Station 2 -->
+                <div class="bg-white shadow rounded p-4 flex items-center">
+                    <div class="flex-shrink-0 w-24 h-24 bg-blue-500 flex items-center justify-center mr-6">
+                        <span class="text-white text-lg font-semibold">LOGO</span>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-center">
+                        <div class="mb-2">
+                            <h3 class="font-semibold text-right mb-1">ZuidWest AM</h3>
+                            <p class="text-sm text-right">LC-AAC 96 kbps / 48 kHz</p>
+                        </div>
+                        <div>
+                            <div class="flex flex-col space-y-1">
+                                <div class="flex items-center">
+                                    <div class="text-xs font-semibold text-gray-700 mr-2 whitespace-nowrap">L -30</div>
+                                    <div class="bg-gray-300 w-full h-2 rounded">
+                                        <div class="bg-green-400 h-2 rounded" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="text-xs font-semibold text-gray-700 mr-2 whitespace-nowrap">R -30</div>
+                                    <div class="bg-gray-300 w-full h-2 rounded">
+                                        <div class="bg-green-400 h-2 rounded" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <button class="bg-gray-200 text-gray-700 px-4 py-1 rounded">Edit</button>
+                            <button class="bg-red-500 text-white px-4 py-1 rounded">Restart</button>
+                        </div>
+                        <p class="text-sm mt-4 text-left">Dua Lipa - Houdini</p>
+                    </div>
+                </div>
+                <!-- Station 3 -->
+                <div class="bg-white shadow rounded p-4 flex items-center">
+                    <div class="flex-shrink-0 w-24 h-24 bg-green-500 flex items-center justify-center mr-6">
+                        <span class="text-white text-lg font-semibold">LOGO</span>
+                    </div>
+                    <div class="flex-grow flex flex-col justify-center">
+                        <div class="mb-2">
+                            <h3 class="font-semibold text-right mb-1">ZuidWest NL</h3>
+                            <p class="text-sm text-right">LC-AAC 96 kbps / 48 kHz</p>
+                        </div>
+                        <div>
+                            <div class="flex flex-col space-y-1">
+                                <div class="flex items-center">
+                                    <div class="text-xs font-semibold text-gray-700 mr-2 whitespace-nowrap">L -30</div>
+                                    <div class="bg-gray-300 w-full h-2 rounded">
+                                        <div class="bg-green-400 h-2 rounded" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="text-xs font-semibold text-gray-700 mr-2 whitespace-nowrap">R -30</div>
+                                    <div class="bg-gray-300 w-full h-2 rounded">
+                                        <div class="bg-green-400 h-2 rounded" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <button class="bg-gray-200 text-gray-700 px-4 py-1 rounded">Edit</button>
+                            <button class="bg-red-500 text-white px-4 py-1 rounded">Restart</button>
+                        </div>
+                        <p class="text-sm mt-4 text-left">Dua Lipa - Houdini</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
