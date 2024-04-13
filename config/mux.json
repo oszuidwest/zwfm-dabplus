@@ -45,6 +45,11 @@
             "id": "0x4140",
             "label": "BredaNu Radio",
             "shortlabel": "BredaNu"
+        },
+        "srv-sobfm": {
+            "id": "0x76cb",
+            "label": "Bevelanden",
+            "shortlabel": "SOBFM"
         }
     },
     "subchannels": {
@@ -87,6 +92,14 @@
             "protection": 3,
             "inputproto": "edi",
             "inputuri": "tcp://0.0.0.0:7040"
+        },
+        "sub-sobfm": {
+            "type": "dabplus",
+            "bitrate": 96,
+            "id": 6,
+            "protection": 3,
+            "inputproto": "edi",
+            "inputuri": "tcp://0.0.0.0:7050"
         }
     },
     "components": {
@@ -115,6 +128,13 @@
         "comp-bredanu": {
             "service": "srv-bredanu",
             "subchannel": "sub-bredanu",
+            "user-applications": {
+                "userapp": "slideshow"
+            }
+        },
+        "comp-sobfm": {
+            "service": "srv-sobfm",
+            "subchannel": "sub-sobfm",
             "user-applications": {
                 "userapp": "slideshow"
             }

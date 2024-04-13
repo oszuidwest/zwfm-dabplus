@@ -39,6 +39,14 @@
       "livestream": "https://icecast.bredanu.nl/transport",
       "bitrate": 96,
       "slideshow": true
+    },
+    {
+      "abbreviation": "SOBFM",
+      "full_name": "SOB FM",
+      "port": "7050",
+      "livestream": "https://stream.sobfm.nl:8443/stream",
+      "bitrate": 96,
+      "slideshow": true
     }
   ]
 }
