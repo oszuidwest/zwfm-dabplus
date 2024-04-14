@@ -1,20 +1,20 @@
 # ZuidWest DAB+
 
-This project aims to implement a DAB+ broadcasting workflow using [Open Digital Radio tools](https://www.opendigitalradio.org), aimed at creating a DAB+ multiplex for Streekomroep ZuidWest (covering allotments 49 and 50 in the Netherlands).
+This project is designed to establish a DAB+ broadcasting system utilizing [Open Digital Radio tools](https://www.opendigitalradio.org). It focuses on setting up a DAB+ multiplex for West-Brabant in the Netherlands, which spans allotments 49 and 50.
 
 ## Architecture
 
-The system automatically generates all necessary configurations from the editable `stations.json`.
+The architecture is built around a dynamic system that auto-generates all required configurations from the editable `stations.json`.
 
-- Internet streams for all included stations are transcoded using `ODR-AudioEnc`, with metadata added via `ODR-PadEnc`.
-- A supervisor tool oversees these encoding processes.
-- NodeJS scripts are used to produce all required configuration files, such as `mux.json` for `ODR-DabMux`.
-- Whenever changes occur, the updated configuration files are deployed to the server and the affected processes are restarted.
-- If chnages require a rebuild of the mux, a full multiplex restart is scheduled at 3 AM, due to `ODR-DabMux` lacking support for live reloading.
+- Internet streams of all included stations are transcoded using `ODR-AudioEnc`, and metadata is incorporated via `ODR-PadEnc`.
+- A supervisory tool monitors these encoding operations.
+- NodeJS scripts generate all necessary configuration files, such as `mux.json` for `ODR-DabMux`.
+- Any modifications trigger the deployment of updated configuration files to the server, followed by a restart of the affected processes.
+- If changes necessitate a multiplex rebuild, a complete restart of the multiplex is scheduled for 3 AM, because `ODR-DabMux` does not support live reloading.
 
 ## CI/CD
 
-Work in Progress
+CI/CD pipelines are triggered by updates to `stations.json`. They oversee the setup, modification, or removal of ODR-AudioEnc encoders and the compilation of a new `mux.json` for ODR-DabMux. This process can also be initiated manually from the Actions tab on GitHub.
 
 ## Repository Contents
 
