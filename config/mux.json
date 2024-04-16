@@ -105,10 +105,7 @@
     "components": {
         "comp-zuidwest": {
             "service": "srv-zuidwest",
-            "subchannel": "sub-zuidwest",
-            "user-applications": {
-                "userapp": "slideshow"
-            }
+            "subchannel": "sub-zuidwest"
         },
         "comp-slos": {
             "service": "srv-slos",
