@@ -146,6 +146,11 @@
                     "listenport": 13000
                 }
             }
+        },
+        "zeromq": {
+            "endpoint": "tcp://*:9105",
+            "allowmetadata": true
         }
+    
     }
 }
