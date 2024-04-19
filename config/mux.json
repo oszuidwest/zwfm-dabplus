@@ -151,6 +151,5 @@
             "endpoint": "tcp://*:9105",
             "allowmetadata": true
         }
-    
     }
 }
