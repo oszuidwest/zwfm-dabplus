@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-// Define the JSON file path and 'encoders' directory path at the top
+// JSON file path and 'encoders' directory
 const jsonFilePath = path.join(__dirname, "..", "stations.json");
 const encodersDirPath = path.join(__dirname, "..", "encoders");
 
@@ -36,7 +36,7 @@ function generateConfigFiles(abbreviation, station) {
     livestream, bitrate, port, slideshow,
   } = station;
   
-  // Define base configuration common to both audio and metadata configurations
+  // Base configuration common to both audio and metadata configurations
   const baseConfig = {
     autostart: "true",
     autorestart: "true",
@@ -51,10 +51,10 @@ function generateConfigFiles(abbreviation, station) {
     ...baseConfig,
     stdout_logfile: `/var/log/dab/stations/audio_${abbreviation}.log`, // Correctly set log file path for audio
     program: `dab-${abbreviation}-audio`,
-    command: `odr-audioenc --vlc-uri ${livestream} --bitrate ${bitrate} --pad-socket ${abbreviation}_pad --stats ${abbreviation}_stats --edi tcp://localhost:${port}`,
+    command: `odr-audioenc --vlc-uri ${livestream} --bitrate ${bitrate} --pad 10 --pad-socket ${abbreviation}_pad --stats ${abbreviation}_stats --edi tcp://localhost:${port}`,
   });
 
-  // Metadata configuration, conditionally including slideshow directory option
+  // Metadata configuration
   const slideshowDirOption = slideshow ? `--dir=/etc/dab/stations/${abbreviation}/slideshow` : "";
   const metadataConfig = createConfig({
     ...baseConfig,
