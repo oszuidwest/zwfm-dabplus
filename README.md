@@ -2,6 +2,8 @@
 
 This project is designed to establish a DAB+ broadcasting system utilizing [Open Digital Radio tools](https://www.opendigitalradio.org). It focuses on setting up a DAB+ multiplex for West-Brabant in the Netherlands, which spans allotments 49 and 50.
 
+**⚠️ This project is no longer under active development and has been shelved. The experimental features and code in this repository are highly insecure and should not be used in their current state. Further development and enhancements are necessary to ensure security and stability.**
+
 ## Architecture
 
 The architecture is built around a dynamic system that auto-generates all required configurations from the editable `stations.json`.
