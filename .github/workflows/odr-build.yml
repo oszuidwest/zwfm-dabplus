@@ -1,0 +1,254 @@
+name: Build and Release ODR Artifacts
+
+on:
+  workflow_dispatch:
+
+# Add top-level permissions
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  ##################################
+  # Build Jobs
+  ##################################
+  build_padenc:
+    name: Build ODR-PadEnc Artifact
+    runs-on: ${{ matrix.runner }}
+    container:
+      image: ${{ matrix.image }}
+    strategy:
+      matrix:
+        include:
+          - os: debian
+            image: "debian:bookworm-slim"
+            arch: "amd64"
+            runner: "ubuntu-24.04"
+          - os: debian
+            image: "debian:bookworm-slim"
+            arch: "arm64"
+            runner: "ubuntu-24.04-arm"
+          - os: ubuntu
+            image: "ubuntu:24.04"
+            arch: "amd64"
+            runner: "ubuntu-24.04"
+          - os: ubuntu
+            image: "ubuntu:24.04"
+            arch: "arm64"
+            runner: "ubuntu-24.04-arm"
+    env:
+      VERSION: "v3.0.0"
+      URL_BASE: "https://github.com/Opendigitalradio"
+      SOFTWARE: "ODR-PadEnc/archive/refs/tags"
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get update && apt-get install -y --no-install-recommends \
+            build-essential automake libtool \
+            libmagickwand-dev \
+            ca-certificates curl && \
+          apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+      
+      - name: Download and extract ODR-PadEnc tarball
+        run: |
+          curl -L ${URL_BASE}/${SOFTWARE}/${VERSION}.tar.gz | tar -xz
+          mv ODR-PadEnc* ODR-PadEnc
+      
+      - name: Build ODR-PadEnc
+        working-directory: ODR-PadEnc
+        run: |
+          ./bootstrap
+          ./configure
+          make -j$(nproc)
+      
+      - name: Prepare output directory
+        run: mkdir -p output
+      
+      - name: Copy built binary to output directory
+        working-directory: ODR-PadEnc
+        run: |
+          BINARY_NAME="odr-padenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}"
+          if [ -f odr-padenc ]; then
+            cp odr-padenc "../output/$BINARY_NAME"
+          elif [ -f src/odr-padenc ]; then
+            cp src/odr-padenc "../output/$BINARY_NAME"
+          else
+            echo "Build failed: executable not found!" && exit 1
+          fi
+      
+      - name: Upload ODR-PadEnc Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: odr-padenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
+          path: output/odr-padenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
+
+  build_audioenc:
+    name: Build ODR-AudioEnc Artifact
+    runs-on: ${{ matrix.runner }}
+    container:
+      image: ${{ matrix.image }}
+    strategy:
+      matrix:
+        include:
+          - os: debian
+            image: "debian:bookworm-slim"
+            arch: "amd64"
+            runner: "ubuntu-24.04"
+          - os: debian
+            image: "debian:bookworm-slim"
+            arch: "arm64"
+            runner: "ubuntu-24.04-arm"
+          - os: ubuntu
+            image: "ubuntu:24.04"
+            arch: "amd64"
+            runner: "ubuntu-24.04"
+          - os: ubuntu
+            image: "ubuntu:24.04"
+            arch: "arm64"
+            runner: "ubuntu-24.04-arm"
+    env:
+      VERSION: "v3.6.0"
+      URL_BASE: "https://github.com/Opendigitalradio"
+      SOFTWARE: "ODR-AudioEnc/archive/refs/tags"
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get update && apt-get install -y --no-install-recommends \
+            build-essential automake libtool \
+            libzmq3-dev libzmq5 \
+            libasound2-dev libjack-jackd2-dev libvlc-dev \
+            libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+            libcurl4-openssl-dev ca-certificates curl && \
+          apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+      
+      - name: Download and extract ODR-AudioEnc tarball
+        run: |
+          curl -L ${URL_BASE}/${SOFTWARE}/${VERSION}.tar.gz | tar -xz
+          mv ODR-AudioEnc* ODR-AudioEnc
+      
+      - name: Build ODR-AudioEnc
+        working-directory: ODR-AudioEnc
+        run: |
+          ./bootstrap
+          ./configure --enable-alsa --enable-vlc
+          make -j$(nproc)
+      
+      - name: Prepare output directory
+        run: mkdir -p output
+      
+      - name: Copy built binary to output directory
+        working-directory: ODR-AudioEnc
+        run: |
+          BINARY_NAME="odr-audioenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}"
+          if [ -f odr-audioenc ]; then
+            cp odr-audioenc "../output/$BINARY_NAME"
+          elif [ -f src/odr-audioenc ]; then
+            cp src/odr-audioenc "../output/$BINARY_NAME"
+          else
+            echo "Build failed: executable not found!" && exit 1
+          fi
+      
+      - name: Upload ODR-AudioEnc Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: odr-audioenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
+          path: output/odr-audioenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
+
+  ##################################
+  # Release Jobs
+  ##################################
+  release_padenc:
+    name: Create GitHub Release for ODR-PadEnc
+    runs-on: ubuntu-latest
+    needs: build_padenc
+    env:
+      VERSION: "v3.0.0"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create tag if it doesn't exist
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          if git rev-parse odr-padenc-${{ env.VERSION }} >/dev/null 2>&1; then
+            echo "Tag odr-padenc-${{ env.VERSION }} already exists."
+          else
+            echo "Creating tag odr-padenc-${{ env.VERSION }}."
+            git tag odr-padenc-${{ env.VERSION }}
+            git push origin odr-padenc-${{ env.VERSION }}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all_artifacts
+
+      - name: Organize PadEnc artifacts
+        run: |
+          mkdir -p padenc
+          mv all_artifacts/odr-padenc-* padenc/ || true
+          ls -l padenc
+
+      - name: Create PadEnc Release and Upload Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: padenc/**
+          tag_name: odr-padenc-${{ env.VERSION }}
+          name: "ODR-PadEnc ${{ env.VERSION }}"
+          generate_release_notes: false
+
+  release_audioenc:
+    name: Create GitHub Release for ODR-AudioEnc
+    runs-on: ubuntu-latest
+    needs: build_audioenc
+    env:
+      VERSION: "v3.6.0"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create tag if it doesn't exist
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          if git rev-parse odr-audioenc-${{ env.VERSION }} >/dev/null 2>&1; then
+            echo "Tag odr-audioenc-${{ env.VERSION }} already exists."
+          else
+            echo "Creating tag odr-audioenc-${{ env.VERSION }}."
+            git tag odr-audioenc-${{ env.VERSION }}
+            git push origin odr-audioenc-${{ env.VERSION }}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all_artifacts
+
+      - name: Organize AudioEnc artifacts
+        run: |
+          mkdir -p audioenc
+          mv all_artifacts/odr-audioenc-* audioenc/ || true
+          ls -l audioenc
+
+      - name: Create AudioEnc Release and Upload Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: audioenc/**
+          tag_name: odr-audioenc-${{ env.VERSION }}
+          name: "ODR-AudioEnc ${{ env.VERSION }}"
+          generate_release_notes: false
