@@ -94,18 +94,42 @@ jobs:
             image: "debian:bookworm-slim"
             arch: "amd64"
             runner: "ubuntu-24.04"
+            build: full
+          - os: debian
+            image: "debian:bookworm-slim"
+            arch: "amd64"
+            runner: "ubuntu-24.04"
+            build: minimal
           - os: debian
             image: "debian:bookworm-slim"
             arch: "arm64"
             runner: "ubuntu-24.04-arm"
+            build: full
+          - os: debian
+            image: "debian:bookworm-slim"
+            arch: "arm64"
+            runner: "ubuntu-24.04-arm"
+            build: minimal
           - os: ubuntu
             image: "ubuntu:24.04"
             arch: "amd64"
             runner: "ubuntu-24.04"
+            build: full
+          - os: ubuntu
+            image: "ubuntu:24.04"
+            arch: "amd64"
+            runner: "ubuntu-24.04"
+            build: minimal
           - os: ubuntu
             image: "ubuntu:24.04"
             arch: "arm64"
             runner: "ubuntu-24.04-arm"
+            build: full
+          - os: ubuntu
+            image: "ubuntu:24.04"
+            arch: "arm64"
+            runner: "ubuntu-24.04-arm"
+            build: minimal
     env:
       VERSION: "v3.6.0"
       URL_BASE: "https://github.com/Opendigitalradio"
@@ -130,7 +154,11 @@ jobs:
         working-directory: ODR-AudioEnc
         run: |
           ./bootstrap
-          ./configure --enable-alsa --enable-vlc
+          if [ "${{ matrix.build }}" = "full" ]; then
+            ./configure --enable-alsa --enable-jack --enable-vlc --enable-gst
+          else
+            ./configure
+          fi
           make -j$(nproc)
       
       - name: Prepare output directory
@@ -139,7 +167,7 @@ jobs:
       - name: Copy built binary to output directory
         working-directory: ODR-AudioEnc
         run: |
-          BINARY_NAME="odr-audioenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}"
+          BINARY_NAME="odr-audioenc-${{ env.VERSION }}-${{ matrix.build }}-${{ matrix.os }}-${{ matrix.arch }}"
           if [ -f odr-audioenc ]; then
             cp odr-audioenc "../output/$BINARY_NAME"
           elif [ -f src/odr-audioenc ]; then
@@ -151,8 +179,8 @@ jobs:
       - name: Upload ODR-AudioEnc Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: odr-audioenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
-          path: output/odr-audioenc-${{ env.VERSION }}-${{ matrix.os }}-${{ matrix.arch }}
+          name: odr-audioenc-${{ env.VERSION }}-${{ matrix.build }}-${{ matrix.os }}-${{ matrix.arch }}
+          path: output/odr-audioenc-${{ env.VERSION }}-${{ matrix.build }}-${{ matrix.os }}-${{ matrix.arch }}
 
   ##################################
   # Release Jobs

@@ -3,8 +3,10 @@
 This repository contains tooling to automate the building and releasing of binaries for the [Open Digital Radio](https://github.com/opendigitalradio) tools:
 - **ODR-PadEnc** (v3.0.0)
 - **ODR-AudioEnc** (v3.6.0)
+  - Minimal build (only piped input)
+  - Full build (ASLA, Jack, GStreamer and VLC support)
 
-These binaries are designed for easy download and integration into (y)our own scripts or projects. ODR-PadEnc is built with all options, while ODR-AudioEnc is built without suppport for Jack and GStreamer.
+These precompiled binaries are designed for easy integration into (y)our scripts or projects. The ODR-PadEnc binary is built with all options enabled, while ODR-AudioEnc is available in two variants: a minimal version that accepts piped input, and a full version that includes additional support for ASLA, Jack, GStreamer, and VLC.
 
 ## Using the Prebuilt ODR Tools
 
@@ -24,3 +26,11 @@ These binaries are designed for easy download and integration into (y)our own sc
      ./odr-padenc
      ```
    - Similarly, download **ODR-AudioEnc** using its corresponding asset name.
+
+Feel free to integrate these binaries into your projects and scripts for efficient deployment!
+
+
+
+
+
+
