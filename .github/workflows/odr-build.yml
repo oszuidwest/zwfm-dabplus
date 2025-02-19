@@ -36,6 +36,10 @@ jobs:
             image: "ubuntu:24.04"
             arch: "arm64"
             runner: "ubuntu-24.04-arm"
+          - os: alpine
+            image: "alpine:3.21"
+            arch: "amd64" #GitHub Runners doens't support building on Alpine yet "JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64"
+            runner: "ubuntu-24.04"
     env:
       VERSION: "v3.0.0"
       URL_BASE: "https://github.com/Opendigitalradio"
@@ -43,11 +47,18 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          apt-get update && apt-get install -y --no-install-recommends \
-            build-essential automake libtool \
-            libmagickwand-dev \
-            ca-certificates curl && \
-          apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+          if [ "${{ matrix.os }}" = "alpine" ]; then
+            apk add --no-cache \
+              build-base automake autoconf libtool \
+              imagemagick-dev \
+              curl
+          else
+            apt-get update && apt-get install -y --no-install-recommends \
+              build-essential automake libtool \
+              libmagickwand-dev \
+              ca-certificates curl && \
+            apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+          fi
       
       - name: Download and extract ODR-PadEnc tarball
         run: |
@@ -130,6 +141,16 @@ jobs:
             arch: "arm64"
             runner: "ubuntu-24.04-arm"
             build: minimal
+          - os: alpine
+            image: "alpine:3.21"
+            arch: "amd64" #GitHub Runners doens't support building on Alpine yet "JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64"
+            runner: "ubuntu-24.04"
+            build: minimal
+          - os: alpine
+            image: "alpine:3.21"
+            arch: "amd64" #GitHub Runners doens't support building on Alpine yet "JavaScript Actions in Alpine containers are only supported on x64 Linux runners. Detected Linux Arm64"
+            runner: "ubuntu-24.04"
+            build: full
     env:
       VERSION: "v3.6.0"
       URL_BASE: "https://github.com/Opendigitalradio"
@@ -137,13 +158,25 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          apt-get update && apt-get install -y --no-install-recommends \
-            build-essential automake libtool \
-            libzmq3-dev libzmq5 \
-            libasound2-dev libjack-jackd2-dev libvlc-dev \
-            libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
-            libcurl4-openssl-dev ca-certificates curl && \
-          apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+          if [ "${{ matrix.os }}" = "alpine" ]; then
+            # Enable community repository
+            echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories
+            apk update
+            apk add --no-cache \
+              build-base automake autoconf libtool \
+              zeromq-dev \
+              alsa-lib-dev jack-dev vlc-dev \
+              gstreamer-dev gst-plugins-base-dev \
+              curl-dev curl
+          else
+            apt-get update && apt-get install -y --no-install-recommends \
+              build-essential automake libtool \
+              libzmq3-dev libzmq5 \
+              libasound2-dev libjack-jackd2-dev libvlc-dev \
+              libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+              libcurl4-openssl-dev ca-certificates curl && \
+            apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+          fi
       
       - name: Download and extract ODR-AudioEnc tarball
         run: |
